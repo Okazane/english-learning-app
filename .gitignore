@@ -1,0 +1,5 @@
+node_modules/
+.vercel/
+.env
+.DS_Store
+scripts/extracted-s1-s15.json

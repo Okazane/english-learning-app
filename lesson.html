@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài học | English Learning App</title>
+<meta name="description" content="Bài học tiếng Anh trong ngày: từ vựng, ngữ pháp, hội thoại và năm phần luyện tập.">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Lora:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+(function () {
+  try {
+    var t = (localStorage.getItem('eng:theme') || '').replace(/"/g, '');
+    if (t !== 'dark' && t !== 'light') {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-lesson">
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4.5 4.5h6v6h-6zM13.5 4.5h6v6h-6zM4.5 13.5h6v6h-6zM13.5 13.5h6v6h-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-deck" viewBox="0 0 24 24"><rect x="6" y="7.5" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 4.5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-flip" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 0 1 13-5l2-2v6h-6l2.3-2.3A5 5 0 0 0 7 12M19.5 12a7.5 7.5 0 0 1-13 5l-2 2v-6h6l-2.3 2.3A5 5 0 0 0 17 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-translate" viewBox="0 0 24 24"><path d="M4 6h9M8.5 4v2M6 6c.8 3.2 3 5.4 6 6.5M11 6c-.8 3.2-3 5.4-6.2 6.5M12.5 20l4-9 4 9M14 17h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Bỏ qua, vào nội dung chính</a>
+
+<header class="topbar topbar-lesson">
+  <div class="topbar-inner">
+    <a class="btn btn-ghost" id="back-to-roadmap" href="index.html">
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg>
+      <span class="btn-label">Lộ trình</span>
+    </a>
+
+    <div class="lesson-id">
+      <span class="lesson-badge" id="lesson-meta-badge">Day 01 A1</span>
+      <div class="lesson-heading">
+        <h1 class="lesson-title" id="lesson-title">Đang mở bài học</h1>
+        <p class="lesson-sub" id="lesson-sub"></p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <span class="score-badge" id="lesson-score-badge" role="status">Chưa làm bài</span>
+      <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Chuyển giao diện sáng và tối" aria-pressed="false">
+        <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container container-lesson">
+
+  <noscript><p class="notice">Trang này cần JavaScript để hiển thị bài học và lưu tiến độ.</p></noscript>
+
+  <div class="tabs" id="lesson-tabs" role="tablist" aria-label="Bốn bước của bài học">
+    <button class="tab is-active" type="button" role="tab" data-tab="vocab" id="tabbtn-vocab" aria-controls="tab-vocab" aria-selected="true">
+      <span class="tab-no">1</span><span class="tab-name">Từ vựng</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="grammar" id="tabbtn-grammar" aria-controls="tab-grammar" aria-selected="false">
+      <span class="tab-no">2</span><span class="tab-name">Ngữ pháp</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="dialogue" id="tabbtn-dialogue" aria-controls="tab-dialogue" aria-selected="false">
+      <span class="tab-no">3</span><span class="tab-name">Hội thoại</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="practice" id="tabbtn-practice" aria-controls="tab-practice" aria-selected="false">
+      <span class="tab-no">4</span><span class="tab-name">Bài tập</span>
+    </button>
+  </div>
+
+  <div class="sheet">
+
+    <!-- 1. Vocabulary -->
+    <section class="panel" id="tab-vocab" role="tabpanel" aria-labelledby="tabbtn-vocab">
+      <div class="panel-head">
+        <h2 class="panel-title">Từ vựng của ngày</h2>
+        <div class="panel-tools">
+          <p class="mastered" id="vocab-mastered-count" aria-live="polite">0 đã thuộc</p>
+          <div class="segmented" role="group" aria-label="Cách xem từ vựng">
+            <button class="seg is-active" type="button" id="vocab-mode-grid" aria-pressed="true">
+              <svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg>
+              <span class="btn-label">Lưới thẻ</span>
+            </button>
+            <button class="seg" type="button" id="vocab-mode-deck" aria-pressed="false">
+              <svg class="icon" aria-hidden="true"><use href="#i-deck"/></svg>
+              <span class="btn-label">Từng thẻ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="panel-hint">Chạm vào thẻ để lật xem nghĩa tiếng Việt và câu ví dụ.</p>
+      <div class="vocab-grid" id="vocab-grid"></div>
+      <div class="vocab-deck" id="vocab-deck" hidden></div>
+      <div class="panel-foot">
+        <button class="btn btn-primary" type="button" data-next-tab="grammar">
+          <span class="btn-label">Bước tiếp theo</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. Grammar -->
+    <section class="panel" id="tab-grammar" role="tabpanel" aria-labelledby="tabbtn-grammar" hidden>
+      <div class="panel-head">
+        <h2 class="panel-title" id="grammar-point">Điểm ngữ pháp</h2>
+      </div>
+      <div class="grammar-layout">
+        <div class="grammar-main">
+          <h3 class="block-title">Công thức</h3>
+          <div class="grammar-explanation" id="grammar-explanation"></div>
+          <h3 class="block-title">Ví dụ trong ngữ cảnh</h3>
+          <ul class="example-list" id="grammar-examples"></ul>
+        </div>
+        <aside class="grammar-side">
+          <h3 class="block-title">Lỗi thường gặp</h3>
+          <div class="mistake" id="grammar-mistake"></div>
+          <h3 class="block-title">Mẹo nhớ</h3>
+          <div class="tip" id="grammar-tip"></div>
+        </aside>
+      </div>
+      <div class="panel-foot">
+        <button class="btn btn-primary" type="button" data-next-tab="dialogue">
+          <span class="btn-label">Bước tiếp theo</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. Dialogue -->
+    <section class="panel" id="tab-dialogue" role="tabpanel" aria-labelledby="tabbtn-dialogue" hidden>
+      <div class="panel-head">
+        <h2 class="panel-title" id="dialogue-title">Hội thoại</h2>
+        <div class="panel-tools">
+          <button class="btn btn-ghost" type="button" id="dialogue-play-all">
+            <svg class="icon" aria-hidden="true"><use href="#i-speaker"/></svg>
+            <span class="btn-label">Nghe toàn hội thoại</span>
+          </button>
+          <button class="btn btn-ghost" type="button" id="dialogue-toggle-vi" aria-pressed="false">
+            <svg class="icon" aria-hidden="true"><use href="#i-translate"/></svg>
+            <span class="btn-label">Hiện dịch tiếng Việt</span>
+          </button>
+        </div>
+      </div>
+      <div class="dialogue-lines" id="dialogue-lines"></div>
+      <p class="empty" id="dialogue-empty" hidden>Ngày này là bài thi nên không có hội thoại. Chuyển sang phần bài tập.</p>
+      <div class="panel-foot">
+        <button class="btn btn-primary" type="button" data-next-tab="practice">
+          <span class="btn-label">Bước tiếp theo</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. Practice -->
+    <section class="panel" id="tab-practice" role="tabpanel" aria-labelledby="tabbtn-practice" hidden>
+      <div class="practice-bar">
+        <p class="practice-text" id="practice-progress-text">Đã trả lời 0 trên 0 câu</p>
+        <div class="meter meter-wide" aria-hidden="true"><span class="meter-fill" id="practice-progress-bar"></span></div>
+      </div>
+
+      <div class="ex-block" id="ex-block-mc">
+        <h3 class="ex-title">Phần 1. Trắc nghiệm</h3>
+        <div class="ex-body" id="eng-mc"></div>
+      </div>
+      <div class="ex-block" id="ex-block-fill">
+        <h3 class="ex-title">Phần 2. Chia động từ và điền chỗ trống</h3>
+        <div class="ex-body" id="eng-fill"></div>
+      </div>
+      <div class="ex-block" id="ex-block-build">
+        <h3 class="ex-title">Phần 3. Sắp xếp câu</h3>
+        <div class="ex-body" id="eng-build"></div>
+      </div>
+      <div class="ex-block" id="ex-block-transform">
+        <h3 class="ex-title">Phần 4. Viết lại câu</h3>
+        <div class="ex-body" id="eng-transform"></div>
+      </div>
+      <div class="ex-block" id="ex-block-review">
+        <h3 class="ex-title">Phần 5. Ôn tập ngắt quãng</h3>
+        <div class="ex-body" id="eng-review"></div>
+      </div>
+
+      <div class="submit-bar">
+        <div class="submit-result" id="eng-result" role="status" aria-live="polite"></div>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" type="button" id="eng-retry-wrong" hidden>Làm lại các câu sai</button>
+          <button class="btn btn-primary btn-lg" type="button" id="eng-submit">Nộp bài và chấm điểm</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="lesson-nav" id="lesson-nav" aria-label="Chuyển ngày học"></nav>
+</main>
+
+<script src="data/curriculum.js"></script>
+<script src="assets/lesson.js"></script>
+</body>
+</html>

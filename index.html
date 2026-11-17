@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Learning App, lộ trình 30 ngày từ A1 đến B1</title>
+<meta name="description" content="Sổ bài tập tiếng Anh mỗi ngày: từ vựng, ngữ pháp, hội thoại và năm phần luyện tập, theo lộ trình 30 ngày từ A1 đến B1.">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Lora:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+(function () {
+  try {
+    var t = (localStorage.getItem('eng:theme') || '').replace(/"/g, '');
+    if (t !== 'dark' && t !== 'light') {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body class="page-desk">
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h10.5A3.5 3.5 0 0 1 19 8v11.5H8.5A3.5 3.5 0 0 1 5 16V4.5Z M5 16a3.5 3.5 0 0 1 3.5-3.5H19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 0 1-13 5M4.5 12a7.5 7.5 0 0 1 13-5M17.5 3v4h-4M6.5 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Bỏ qua, vào nội dung chính</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="English Learning App, trang chủ">
+      <span class="brand-name">English Learning App</span>
+      <span class="brand-sub">A1 to B1 Daily Workbook</span>
+    </a>
+
+    <dl class="stats" aria-label="Tiến độ của bạn">
+      <div class="stat">
+        <dt class="stat-label">Chuỗi ngày</dt>
+        <dd class="stat-value" id="streak-count">0</dd>
+      </div>
+      <div class="stat">
+        <dt class="stat-label">Bài đã xong</dt>
+        <dd class="stat-value" id="completed-count">0</dd>
+      </div>
+    </dl>
+
+    <div class="toolbar">
+      <button class="btn btn-ghost" id="open-vocab-bank" type="button" aria-haspopup="dialog" aria-controls="vocab-modal">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+        <span class="btn-label">Kho từ vựng</span>
+      </button>
+      <button class="btn btn-ghost" id="open-account-modal" type="button" aria-haspopup="dialog" aria-controls="account-modal">
+        <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+        <span class="btn-label" id="student-name-label">Học viên</span>
+      </button>
+      <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Chuyển giao diện sáng và tối" aria-pressed="false">
+        <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+        <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+
+  <noscript><p class="notice">Trang này cần JavaScript để hiển thị bài học và lưu tiến độ.</p></noscript>
+
+  <section class="today" id="today-card" aria-labelledby="today-title">
+    <div class="today-margin">
+      <span class="today-margin-label" id="today-label-text">Bài hôm nay</span>
+      <span class="today-day" id="today-day-badge">01</span>
+      <span class="cefr-tag today-cefr" id="today-cefr">A1</span>
+    </div>
+
+    <div class="today-body">
+      <h1 class="today-title" id="today-title">Đang mở bài học</h1>
+      <p class="today-goal" id="today-goal">Mục tiêu của ngày hôm nay sẽ hiện ở đây.</p>
+
+      <ol class="parts" aria-label="Bốn phần của buổi học">
+        <li><span class="part-no">1</span><span class="part-name">Từ vựng</span><span class="part-note" id="today-vocab-count">từ mới</span></li>
+        <li><span class="part-no">2</span><span class="part-name">Ngữ pháp</span><span class="part-note" id="today-grammar-note">công thức và ví dụ</span></li>
+        <li><span class="part-no">3</span><span class="part-name">Hội thoại</span><span class="part-note" id="today-dialogue-note">nghe và đọc theo</span></li>
+        <li><span class="part-no">4</span><span class="part-name">Bài tập</span><span class="part-note" id="today-practice-count">năm phần</span></li>
+      </ol>
+
+      <div class="today-actions">
+        <a class="btn btn-primary btn-lg" id="today-start-btn" href="lesson.html?day=1">
+          <span class="btn-label">Bắt đầu học</span>
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+        <span class="today-time" id="today-minutes"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="roadmap" aria-labelledby="roadmap-title">
+    <div class="roadmap-head">
+      <h2 class="section-title" id="roadmap-title">Lộ trình 30 ngày</h2>
+      <p class="roadmap-progress">
+        <span id="roadmap-progress-text">0 trên 30 ngày</span>
+        <span class="meter" aria-hidden="true"><span class="meter-fill" id="roadmap-progress-bar"></span></span>
+      </p>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filters" id="stage-filters" role="group" aria-label="Lọc theo giai đoạn">
+        <button class="chip is-active" type="button" data-stage="all" aria-pressed="true">Tất cả</button>
+        <button class="chip" type="button" data-stage="1" aria-pressed="false">A1</button>
+        <button class="chip" type="button" data-stage="2" aria-pressed="false">A2</button>
+        <button class="chip" type="button" data-stage="3" aria-pressed="false">A2+</button>
+        <button class="chip" type="button" data-stage="4" aria-pressed="false">B1</button>
+        <button class="chip" type="button" data-stage="exam" aria-pressed="false">Bài thi</button>
+        <button class="chip" type="button" data-stage="completed" aria-pressed="false">Đã xong</button>
+      </div>
+      <div class="field field-search">
+        <label class="sr-only" for="lesson-search">Tìm bài học, điểm ngữ pháp hoặc từ vựng</label>
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input class="input" id="lesson-search" type="search" placeholder="Tìm bài, ngữ pháp hoặc từ vựng" autocomplete="off">
+      </div>
+    </div>
+
+    <div id="roadmap-container" aria-live="polite"></div>
+    <p class="empty" id="roadmap-empty" hidden>Không có bài nào khớp với bộ lọc này.</p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>Tiến độ được lưu ngay trên trình duyệt này. Nếu bạn nhập địa chỉ Google Sheets ở mục Học viên, kết quả cũng được gửi sang đó.</p>
+</footer>
+
+<!-- Vocabulary bank -->
+<div class="modal modal-drawer" id="vocab-modal" role="dialog" aria-modal="true" aria-labelledby="vocab-modal-title" hidden>
+  <div class="modal-scrim" data-close-modal></div>
+  <div class="modal-sheet">
+    <header class="modal-head">
+      <h2 class="modal-title" id="vocab-modal-title">Kho từ vựng</h2>
+      <button class="btn btn-icon" id="close-vocab-btn" type="button" aria-label="Đóng kho từ vựng">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+      </button>
+    </header>
+    <div class="modal-tools">
+      <div class="field field-search">
+        <label class="sr-only" for="vocab-search">Tìm từ hoặc nghĩa tiếng Việt</label>
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input class="input" id="vocab-search" type="search" placeholder="Tìm từ hoặc nghĩa tiếng Việt" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="field-label" for="vocab-cefr-filter">Cấp độ</label>
+        <select class="input" id="vocab-cefr-filter">
+          <option value="all">Tất cả</option>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+          <option value="A2+">A2+</option>
+          <option value="B1">B1</option>
+        </select>
+      </div>
+      <p class="modal-count" id="vocab-count" aria-live="polite"></p>
+    </div>
+    <ul class="vocab-list" id="vocab-list"></ul>
+  </div>
+</div>
+
+<!-- Student profile and Google Sheets sync -->
+<div class="modal modal-dialog" id="account-modal" role="dialog" aria-modal="true" aria-labelledby="account-modal-title" hidden>
+  <div class="modal-scrim" data-close-modal></div>
+  <div class="modal-sheet">
+    <header class="modal-head">
+      <h2 class="modal-title" id="account-modal-title">Hồ sơ học viên</h2>
+    </header>
+    <div class="modal-body">
+      <div class="field">
+        <label class="field-label" for="acc-name-input">Tên của bạn</label>
+        <input class="input" id="acc-name-input" type="text" placeholder="Ví dụ: Danh" autocomplete="name">
+      </div>
+      <div class="field">
+        <label class="field-label" for="acc-sync-url-input">Địa chỉ Google Sheets (Apps Script Web App)</label>
+        <input class="input input-mono" id="acc-sync-url-input" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+        <p class="field-hint">Để trống nếu bạn chỉ muốn lưu trên máy này.</p>
+      </div>
+      <p class="sync-status" id="sync-status" role="status" aria-live="polite"></p>
+    </div>
+    <footer class="modal-foot">
+      <button class="btn btn-ghost" id="manual-sync-btn" type="button">
+        <svg class="icon" aria-hidden="true"><use href="#i-sync"/></svg>
+        <span class="btn-label">Đồng bộ ngay</span>
+      </button>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" id="close-account-btn" type="button">Đóng</button>
+      <button class="btn btn-primary" id="save-account-btn" type="button">Lưu</button>
+    </footer>
+  </div>
+</div>
+
+<script src="data/curriculum.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
