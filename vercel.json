@@ -1,5 +1,15 @@
 {
   "cleanUrls": false,
+  "rewrites": [
+    {
+      "source": "/assets/:path*",
+      "destination": "https://okazane.github.io/english-learning-app/assets/:path*"
+    },
+    {
+      "source": "/data/:path*",
+      "destination": "https://okazane.github.io/english-learning-app/data/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/sw.js",
