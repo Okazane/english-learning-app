@@ -3,3 +3,6 @@ node_modules/
 .env
 .DS_Store
 scripts/extracted-s1-s15.json
+
+.vercel
+.env*
