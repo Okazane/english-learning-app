@@ -90,9 +90,9 @@
     return n >= 1 && n <= TOTAL_DAYS ? n : 0;
   }
   function getSyncUrl() {
-    var v = loadStr(KEYS.syncUrl, '');
-    if (!v && CUR.meta && CUR.meta.syncUrl) v = CUR.meta.syncUrl;
-    return v || '';
+    // Only the URL saved on this device counts. Empty means "keep progress local only",
+    // so never fall back to a URL baked into the curriculum data.
+    return String(loadStr(KEYS.syncUrl, '') || '').trim();
   }
   function vocabKey(en) { return String(en).trim().toLowerCase(); }
 
@@ -140,15 +140,31 @@
   }
 
   /* ---------- speech ---------- */
+  var speakTimer = null;
+  function pickVoice() {
+    try {
+      var vs = window.speechSynthesis.getVoices() || [], pick = null, k;
+      for (k = 0; k < vs.length && !pick; k++) if (/^en[-_]US$/i.test(vs[k].lang || '')) pick = vs[k];
+      for (k = 0; k < vs.length && !pick; k++) if (/^en/i.test(vs[k].lang || '')) pick = vs[k];
+      return pick;
+    } catch (e) { return null; }
+  }
   function speak(text) {
     if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance === 'undefined' || !text) return;
-    try {
-      window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(String(text));
-      u.lang = 'en-US';
-      u.rate = 0.9;
-      window.speechSynthesis.speak(u);
-    } catch (e) { }
+    clearTimeout(speakTimer);
+    try { window.speechSynthesis.cancel(); } catch (e) { }
+    // only the latest click is spoken; a short delay after cancel() keeps browsers from dropping it
+    speakTimer = setTimeout(function () {
+      try {
+        var u = new SpeechSynthesisUtterance(String(text));
+        u.lang = 'en-US';
+        u.rate = 0.9;
+        var v = pickVoice();                       // no voices installed: browser default
+        if (v) u.voice = v;
+        if (window.speechSynthesis.paused && window.speechSynthesis.resume) window.speechSynthesis.resume();
+        window.speechSynthesis.speak(u);
+      } catch (e) { }
+    }, 60);
   }
 
   /* ---------- modals (the `hidden` attribute toggles them) ---------- */
@@ -322,8 +338,13 @@
 
   /* ---------- vocabulary bank ---------- */
   var ALL_VOCAB = [];
+  var SEEN_VOCAB = {};
   DAYS.forEach(function (d) {
     (d.vocab || []).forEach(function (v) {
+      if (!v || !v.en) return;
+      var key = vocabKey(v.en);
+      if (SEEN_VOCAB[key]) return;                  // defensive: a word is listed once, under the first day that teaches it
+      SEEN_VOCAB[key] = true;
       ALL_VOCAB.push({ day: d.day, cefr: d.cefr, en: v.en, pos: v.pos, ipa: v.ipa, vi: v.vi, example: v.example });
     });
   });
@@ -335,7 +356,10 @@
     var mastered = getMastered();
     var q = norm(vocabState.q).trim();
     var items = ALL_VOCAB.filter(function (v) {
-      if (vocabState.cefr !== 'all' && v.cefr !== vocabState.cefr) return false;
+      var f = vocabState.cefr;
+      if (f === 'mastered') { if (mastered.indexOf(vocabKey(v.en)) === -1) return false; }
+      else if (f === 'unmastered') { if (mastered.indexOf(vocabKey(v.en)) !== -1) return false; }
+      else if (f !== 'all' && v.cefr !== f) return false;
       if (q && norm([v.en, v.vi, v.example, v.pos].join(' ')).indexOf(q) === -1) return false;
       return true;
     });
@@ -352,6 +376,7 @@
           '<span class="vocab-pos">' + esc(v.pos || '') + '</span>' +
           '<span class="vocab-ipa">' + esc(v.ipa || '') + '</span>' +
           '<span class="cefr-tag">' + esc(v.cefr) + '</span>' +
+          '<span class="cefr-tag vocab-day" title="Từ này thuộc bài Day ' + pad2(v.day) + '">Day ' + pad2(v.day) + '</span>' +
         '</div>' +
         '<p class="vocab-vi">' + esc(v.vi || '') + '</p>' +
         (v.example ? '<p class="vocab-example">' + esc(v.example) + '</p>' : '') +

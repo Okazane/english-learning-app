@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>English Learning App, lộ trình 30 ngày từ A1 đến B1</title>
 <meta name="description" content="Sổ bài tập tiếng Anh mỗi ngày: từ vựng, ngữ pháp, hội thoại và năm phần luyện tập, theo lộ trình 30 ngày từ A1 đến B1.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%23E0674B%27/%3E%3Cstop offset=%271%27 stop-color=%27%23A93A22%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Cpath d=%27M20 13h25v7H28v6h14v7H28v6h17v7H20z%27 fill=%27%23fff%27/%3E%3Crect x=%2720%27 y=%2755%27 width=%2725%27 height=%273.5%27 rx=%271.75%27 fill=%27%23F2B84B%27/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#C84B31">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Lora:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <script>
 (function () {
@@ -35,6 +37,7 @@
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h10.5A3.5 3.5 0 0 1 19 8v11.5H8.5A3.5 3.5 0 0 1 5 16V4.5Z M5 16a3.5 3.5 0 0 1 3.5-3.5H19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15 15 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12.5 2.5c.4 3-1.2 4.6-2.7 6.2C8.3 10.3 7 12 7 14.6A5.2 5.2 0 0 0 12.2 20a5.2 5.2 0 0 0 5.3-5.2c0-2.2-1-3.6-2.1-4.9-.3 1.1-.9 1.8-1.6 2.2.5-3.6-.1-6.7-1.3-9.6Z" fill="currentColor"/></symbol>
   <symbol id="i-sync" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 0 1-13 5M4.5 12a7.5 7.5 0 0 1 13-5M17.5 3v4h-4M6.5 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
@@ -43,16 +46,23 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="index.html" aria-label="English Learning App, trang chủ">
-      <span class="brand-name">English Learning App</span>
-      <span class="brand-sub">A1 to B1 Daily Workbook</span>
+      <span class="brand-emblem" aria-hidden="true">
+        <svg viewBox="0 0 64 64" focusable="false"><path d="M20 13h25v7H28v6h14v7H28v6h17v7H20z" fill="currentColor"/><rect x="20" y="55" width="25" height="3.5" rx="1.75" fill="#F2B84B"/></svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">English Learning App</span>
+        <span class="brand-sub">A1 to B1 Daily Workbook</span>
+      </span>
     </a>
 
     <dl class="stats" aria-label="Tiến độ của bạn">
-      <div class="stat">
+      <div class="stat stat-streak">
+        <svg class="icon stat-icon" aria-hidden="true"><use href="#i-flame"/></svg>
         <dt class="stat-label">Chuỗi ngày</dt>
         <dd class="stat-value" id="streak-count">0</dd>
       </div>
-      <div class="stat">
+      <div class="stat stat-done">
+        <svg class="icon stat-icon" aria-hidden="true"><use href="#i-check"/></svg>
         <dt class="stat-label">Bài đã xong</dt>
         <dd class="stat-value" id="completed-count">0</dd>
       </div>
@@ -159,13 +169,15 @@
         <input class="input" id="vocab-search" type="search" placeholder="Tìm từ hoặc nghĩa tiếng Việt" autocomplete="off">
       </div>
       <div class="field">
-        <label class="field-label" for="vocab-cefr-filter">Cấp độ</label>
+        <label class="field-label" for="vocab-cefr-filter">Lọc theo</label>
         <select class="input" id="vocab-cefr-filter">
           <option value="all">Tất cả</option>
           <option value="A1">A1</option>
           <option value="A2">A2</option>
           <option value="A2+">A2+</option>
           <option value="B1">B1</option>
+          <option value="mastered">Đã thuộc</option>
+          <option value="unmastered">Chưa thuộc</option>
         </select>
       </div>
       <p class="modal-count" id="vocab-count" aria-live="polite"></p>

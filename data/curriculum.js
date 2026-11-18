@@ -20,7 +20,7 @@
       "A2+",
       "B1"
     ],
-    "syncUrl": "https://script.google.com/macros/s/AKfycbzVXmeXIu4Tf36Tjs9WiRyvtEB3WTxhSoReXyhqySDnze8aVaFTFW39em2cdfdzlWOR/exec"
+    "syncUrl": ""
   },
   "stages": [
     {
@@ -419,7 +419,7 @@
           {
             "sentence": "Why ___ you ___ (look) at me like that?",
             "answer": "are looking",
-            "hint": "câu hỏi hiện tại tiếp diễn (are ... looking)",
+            "hint": "câu hỏi hiện tại tiếp diễn (are ... looking). Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "are you looking"
             ]
@@ -559,7 +559,7 @@
           {
             "sentence": "___ you ___ (visit) your grandparents last Tet?",
             "answer": "Did visit",
-            "hint": "Câu hỏi quá khứ đơn",
+            "hint": "Câu hỏi quá khứ đơn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Did you visit"
             ]
@@ -854,7 +854,7 @@
           {
             "sentence": "___ you ___ (study) at 8 PM last night?",
             "answer": "Were studying",
-            "hint": "câu hỏi quá khứ tiếp diễn",
+            "hint": "câu hỏi quá khứ tiếp diễn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Were you studying"
             ]
@@ -1010,7 +1010,7 @@
           {
             "sentence": "___ they ___ (watch) a movie right now?",
             "answer": "Are watching",
-            "hint": "Câu hỏi hiện tại tiếp diễn",
+            "hint": "Câu hỏi hiện tại tiếp diễn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Are they watching"
             ]
@@ -1315,7 +1315,7 @@
           {
             "sentence": "___ robots ___ (do) all factory jobs in 50 years?",
             "answer": "Will do",
-            "hint": "câu hỏi tương lai đơn",
+            "hint": "câu hỏi tương lai đơn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Will robots do"
             ]
@@ -1459,7 +1459,7 @@
           {
             "sentence": "What ___ you ___ (do) when the earthquake happened?",
             "answer": "were doing",
-            "hint": "Câu hỏi quá khứ tiếp diễn",
+            "hint": "Câu hỏi quá khứ tiếp diễn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "were you doing"
             ]
@@ -1749,7 +1749,7 @@
           {
             "sentence": "___ you ever ___ (try) virtual reality glasses?",
             "answer": "Have tried",
-            "hint": "câu hỏi hiện tại hoàn thành",
+            "hint": "câu hỏi hiện tại hoàn thành. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Have you ever tried",
               "Have you tried"
@@ -1763,7 +1763,7 @@
           {
             "sentence": "We ___ just ___ (finish) our science project.",
             "answer": "have finished",
-            "hint": "hiện tại hoàn thành với just",
+            "hint": "hiện tại hoàn thành với just. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "have just finished"
             ]
@@ -1960,11 +1960,11 @@
           "example": "Floods are dangerous natural disasters."
         },
         {
-          "en": "leisure activity",
-          "pos": "n phr",
-          "ipa": "/ˈleʒər ækˈtɪvəti/",
-          "vi": "hoạt động rảnh rỗi",
-          "example": "What is your favorite leisure activity?"
+          "en": "hobby",
+          "pos": "n",
+          "ipa": "/ˈhɑːbi/",
+          "vi": "sở thích",
+          "example": "Collecting stamps is my grandfather's favorite hobby."
         },
         {
           "en": "sentence transformation",
@@ -2278,7 +2278,7 @@
           {
             "sentence": "___ you ever ___ (eat) Japanese food?",
             "answer": "Have eaten",
-            "hint": "Hiện tại hoàn thành (Have...eaten)",
+            "hint": "Hiện tại hoàn thành (Have...eaten). Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Have you ever eaten",
               "Have you eaten"
@@ -2317,7 +2317,7 @@
           {
             "sentence": "___ you ___ (go) to submit your assignment tomorrow morning?",
             "answer": "Are going",
-            "hint": "kế hoạch đã có – be going to",
+            "hint": "kế hoạch đã có – be going to. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Are you going"
             ]
@@ -2606,11 +2606,11 @@
           "example": "I am hooked on this new TV series."
         },
         {
-          "en": "hang out",
+          "en": "can't stand",
           "pos": "v phr",
-          "ipa": "/hæŋ aʊt/",
-          "vi": "đi chơi cùng bạn bè",
-          "example": "Teenagers love hanging out at the shopping mall."
+          "ipa": "/kænt stænd/",
+          "vi": "không chịu nổi, ghét",
+          "example": "I can't stand waiting in long queues."
         },
         {
           "en": "surf the net",
@@ -2968,7 +2968,7 @@
           {
             "sentence": "What ___ you ___ (do) when the phone rang?",
             "answer": "were doing",
-            "hint": "Chia hoặc chọn dạng đúng dựa theo gợi ý (do)",
+            "hint": "Chia hoặc chọn dạng đúng dựa theo gợi ý (do). Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "were you doing"
             ]
@@ -3006,11 +3006,11 @@
           "example": "Living in the city is very convenient."
         },
         {
-          "en": "peaceful",
+          "en": "spacious",
           "pos": "adj",
-          "ipa": "/ˈpiːsfl/",
-          "vi": "thanh bình",
-          "example": "The countryside is so peaceful."
+          "ipa": "/ˈspeɪʃəs/",
+          "vi": "rộng rãi",
+          "example": "Our new apartment is more spacious than the old one."
         },
         {
           "en": "crowded",
@@ -3020,11 +3020,11 @@
           "example": "The streets are crowded with traffic."
         },
         {
-          "en": "hospitable",
+          "en": "affordable",
           "pos": "adj",
-          "ipa": "/hɒˈspɪtəbl/",
-          "vi": "hiếu khách",
-          "example": "The locals are very hospitable."
+          "ipa": "/əˈfɔːrdəbl/",
+          "vi": "giá phải chăng",
+          "example": "Housing in the countryside is more affordable than in big cities."
         },
         {
           "en": "noisy",
@@ -3443,18 +3443,18 @@
       "dailyGoal": "Xác định đúng khi nào cần dùng a, an, the hoặc không dùng mạo từ trước danh từ đếm được, không đếm được và tên riêng địa lý.",
       "vocab": [
         {
-          "en": "custom",
+          "en": "incense",
           "pos": "n",
-          "ipa": "/ˈkʌstəm/",
-          "vi": "phong tục",
-          "example": "It's a traditional custom in my country."
+          "ipa": "/ˈɪnsens/",
+          "vi": "hương, nhang",
+          "example": "We burn incense at the altar on the first day of Tet."
         },
         {
-          "en": "tradition",
+          "en": "ritual",
           "pos": "n",
-          "ipa": "/trəˈdɪʃn/",
-          "vi": "truyền thống",
-          "example": "We respect our family traditions."
+          "ipa": "/ˈrɪtʃuəl/",
+          "vi": "nghi thức",
+          "example": "Visiting family graves is an important ritual before Tet."
         },
         {
           "en": "respect",
@@ -3902,11 +3902,11 @@
           "example": "Students interact with the teacher."
         },
         {
-          "en": "socialize",
-          "pos": "v",
-          "ipa": "/ˈsəʊʃəlaɪz/",
-          "vi": "giao lưu",
-          "example": "She likes to socialize with friends."
+          "en": "invitation",
+          "pos": "n",
+          "ipa": "/ˌɪnvɪˈteɪʃn/",
+          "vi": "lời mời",
+          "example": "Did you get an invitation to the festival?"
         },
         {
           "en": "participate",
@@ -3930,11 +3930,11 @@
           "example": "Tet is the most important festival."
         },
         {
-          "en": "ceremony",
+          "en": "souvenir",
           "pos": "n",
-          "ipa": "/ˈserəməni/",
-          "vi": "buổi lễ",
-          "example": "The opening ceremony was grand."
+          "ipa": "/ˌsuːvəˈnɪr/",
+          "vi": "đồ lưu niệm",
+          "example": "Tourists buy souvenirs at the festival, don't they?"
         },
         {
           "en": "confirmation",
@@ -4383,11 +4383,11 @@
           "example": "Reading books is her greatest passion."
         },
         {
-          "en": "countryside",
+          "en": "suburb",
           "pos": "n",
-          "ipa": "/ˈkʌntrisaɪd/",
-          "vi": "miền quê, nông thôn",
-          "example": "The air in the countryside is fresh and clean."
+          "ipa": "/ˈsʌbɜːrb/",
+          "vi": "vùng ngoại ô",
+          "example": "She lives in a quiet suburb outside the city."
         },
         {
           "en": "metropolis",
@@ -7609,7 +7609,7 @@
           {
             "sentence": "___ these smartphones ___ (manufacture) in Vietnam?",
             "answer": "Are manufactured",
-            "hint": "câu hỏi bị động hiện tại đơn",
+            "hint": "câu hỏi bị động hiện tại đơn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Are these smartphones manufactured"
             ]
@@ -8048,7 +8048,10 @@
           {
             "sentence": "Hundreds of trees ___ already ___ (plant) along the river.",
             "answer": "have been planted",
-            "hint": "bị động hiện tại hoàn thành số nhiều"
+            "hint": "bị động hiện tại hoàn thành số nhiều. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
+            "alternatives": [
+              "have already been planted"
+            ]
           },
           {
             "sentence": "This problem can ___ (solve) easily if we work together.",
@@ -9021,9 +9024,9 @@
             "hint": "lùi can -> could"
           },
           {
-            "sentence": "She asked me what ___ (be) my favorite subject. -> She asked me what my favorite subject ___.",
+            "sentence": "Direct: 'What is your favorite subject?' -> She asked me what my favorite subject ___ (be).",
             "answer": "was",
-            "hint": "đưa động từ to be (was) ra cuối sau chủ ngữ"
+            "hint": "Câu tường thuật: lùi thì động từ to be (is -> ?), đặt sau chủ ngữ"
           }
         ],
         "sentenceBuild": [
@@ -9170,7 +9173,10 @@
           {
             "sentence": "All tickets ___ already ___ (sell) out.",
             "answer": "have been sold",
-            "hint": "Ôn tập Bị động hiện tại hoàn thành"
+            "hint": "Ôn tập Bị động hiện tại hoàn thành. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
+            "alternatives": [
+              "have already been sold"
+            ]
           },
           {
             "sentence": "Unless you ___ (wear) a warm coat, you will catch a cold.",
@@ -9908,11 +9914,11 @@
           "example": "The band will be rehearsing for the concert all afternoon tomorrow."
         },
         {
-          "en": "broadcast",
+          "en": "depart",
           "pos": "v",
-          "ipa": "/ˈbrɔːdkæst/",
-          "vi": "truyền hình, phát sóng",
-          "example": "The channel will be broadcasting the game at 8 PM tonight."
+          "ipa": "/dɪˈpɑːrt/",
+          "vi": "khởi hành, rời đi",
+          "example": "The train will be departing from platform 3 at this time tomorrow."
         },
         {
           "en": "relocate",
@@ -9922,11 +9928,11 @@
           "example": "Next month, our company will be relocating to a greener building."
         },
         {
-          "en": "celebrate",
+          "en": "stroll",
           "pos": "v",
-          "ipa": "/ˈselɪbreɪt/",
-          "vi": "đón mừng, kỷ niệm",
-          "example": "At midnight on New Year's Eve, everyone will be celebrating."
+          "ipa": "/stroʊl/",
+          "vi": "đi dạo thong thả",
+          "example": "We will be strolling along the beach at sunset."
         },
         {
           "en": "itinerary",
@@ -10106,7 +10112,7 @@
           {
             "sentence": "What ___ you ___ (do) at this time next year?",
             "answer": "will be doing",
-            "hint": "câu hỏi tương lai tiếp diễn",
+            "hint": "câu hỏi tương lai tiếp diễn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "will you be doing"
             ]
@@ -11061,7 +11067,7 @@
           {
             "sentence": "___ she ___ (use to) have long hair when she was a child?",
             "answer": "Did use to",
-            "hint": "câu hỏi quá khứ với Did ... use to",
+            "hint": "câu hỏi quá khứ với Did ... use to. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "Did she use to"
             ]
@@ -11769,11 +11775,11 @@
           "example": "Waking up early has become part of my daily routine."
         },
         {
-          "en": "evidence",
-          "pos": "n",
-          "ipa": "/ˈevɪdəns/",
-          "vi": "bằng chứng",
-          "example": "Use 'must' when you have strong evidence for a deduction."
+          "en": "get along with",
+          "pos": "v phr",
+          "ipa": "/ɡet əˈlɔːŋ wɪð/",
+          "vi": "hòa thuận với",
+          "example": "She gets along with all her classmates."
         },
         {
           "en": "forecast",
@@ -12005,7 +12011,7 @@
           {
             "sentence": "What ___ you ___ (do) at this time next Sunday?",
             "answer": "will be doing",
-            "hint": "câu hỏi tương lai tiếp diễn",
+            "hint": "câu hỏi tương lai tiếp diễn. Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)",
             "alternatives": [
               "will you be doing"
             ]
@@ -12384,18 +12390,18 @@
           "example": "Have you considered joining the debate club?"
         },
         {
-          "en": "admit",
+          "en": "deny",
           "pos": "v",
-          "ipa": "/ədˈmɪt/",
-          "vi": "thừa nhận (+ V-ing)",
-          "example": "He admitted breaking the classroom window."
+          "ipa": "/dɪˈnaɪ/",
+          "vi": "phủ nhận (+ V-ing)",
+          "example": "He denied breaking the classroom window."
         },
         {
-          "en": "postpone",
+          "en": "intend",
           "pos": "v",
-          "ipa": "/poʊˈspoʊn/",
-          "vi": "trì hoãn (+ V-ing)",
-          "example": "They postponed building the new stadium."
+          "ipa": "/ɪnˈtend/",
+          "vi": "dự định (+ to V)",
+          "example": "She intends to call me after the meeting."
         },
         {
           "en": "decide",
@@ -13195,7 +13201,7 @@
             "answer": "She invited a few close friends to her birthday dinner."
           },
           {
-            "sentence": "There aren't many kursi/seats left in the theater. -> There are only ___ seats left in the theater. (few)",
+            "sentence": "There aren't many seats left in the theater. -> There are only ___ seats left in the theater. (few)",
             "hint": "Viết cả câu dùng only a few seats left in the theater",
             "answer": "There are only a few seats left in the theater.",
             "alternatives": [
@@ -13328,11 +13334,11 @@
           "example": "Technology has grown rapidly in the 21st century."
         },
         {
-          "en": "anniversary",
-          "pos": "n",
-          "ipa": "/ˌænɪˈvɜːrsəri/",
-          "vi": "ngày kỷ niệm (on their anniversary)",
-          "example": "They went out for dinner on their wedding anniversary."
+          "en": "spectacular",
+          "pos": "adj",
+          "ipa": "/spekˈtækjələr/",
+          "vi": "ngoạn mục, đẹp mắt",
+          "example": "What a spectacular view from the top of the mountain!"
         },
         {
           "en": "intersection",
@@ -13801,11 +13807,11 @@
           "example": "They are having their living room redecorated."
         },
         {
-          "en": "deliver",
+          "en": "repair",
           "pos": "v",
-          "ipa": "/dɪˈlɪvər/",
-          "vi": "giao tận nơi",
-          "example": "We had the pizza delivered to our house."
+          "ipa": "/rɪˈper/",
+          "vi": "sửa chữa",
+          "example": "I had my bike repaired at the shop yesterday."
         },
         {
           "en": "dry-clean",
@@ -14233,11 +14239,11 @@
           "example": "Bilingual flashcards help you remember meanings faster."
         },
         {
-          "en": "milestone",
+          "en": "determination",
           "pos": "n",
-          "ipa": "/ˈmaɪlstoʊn/",
-          "vi": "cột mốc",
-          "example": "Reaching CEFR B1 is an important milestone."
+          "ipa": "/dɪˌtɜːrmɪˈneɪʃn/",
+          "vi": "sự quyết tâm",
+          "example": "Her determination helped her finish the 30-day course."
         },
         {
           "en": "overcome",
@@ -14261,11 +14267,11 @@
           "example": "Learning new words every day enriches your vocabulary."
         },
         {
-          "en": "transform",
-          "pos": "v",
-          "ipa": "/trænsˈfɔːrm/",
-          "vi": "chuyển đổi, biến đổi",
-          "example": "You can transform active sentences into passive ones easily."
+          "en": "improvement",
+          "pos": "n",
+          "ipa": "/ɪmˈpruːvmənt/",
+          "vi": "sự cải thiện, tiến bộ",
+          "example": "Your improvement over the last 30 days is remarkable."
         },
         {
           "en": "persistent",

@@ -141,7 +141,29 @@ function enrichFillItem(q, day) {
   if (item.answer === 'have finished' && item.sentence.includes('just')) {
     item.alternatives = ['have just finished'];
   }
+  addMultiBlankSupport(item);
   return item;
+}
+
+// Questions with 2 blanks ("___ you ___ (look)"): the learner may type just the
+// verb words ("are looking") or the full phrase between the blanks ("are you looking").
+function addMultiBlankSupport(item) {
+  const parts = item.sentence.split('___');
+  const blanks = parts.length - 1;
+  if (blanks !== 2) return;
+  const words = item.answer.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) {
+    const mid = parts[1].trim().replace(/\s+/g, ' ');
+    const first = words[0];
+    const rest = words.slice(1).join(' ');
+    const full = [first, mid, rest].filter(Boolean).join(' ');
+    const alts = new Set(item.alternatives || []);
+    if (full !== item.answer) alts.add(full);
+    alts.delete(item.answer);
+    item.alternatives = Array.from(alts);
+  }
+  const note = 'Có 2 chỗ trống: gõ cả hai từ cách nhau bằng dấu cách (hoặc cả cụm từ chỗ trống thứ nhất đến chỗ trống thứ hai)';
+  if (!item.hint.includes('Có 2 chỗ trống')) item.hint = `${item.hint}. ${note}`;
 }
 
 function enrichTransItem(q, day) {
@@ -393,7 +415,7 @@ const curriculum = {
     totalVocab,
     totalQuestions,
     cefrLevels: ["A1", "A2", "A2+", "B1"],
-    syncUrl: "https://script.google.com/macros/s/AKfycbzVXmeXIu4Tf36Tjs9WiRyvtEB3WTxhSoReXyhqySDnze8aVaFTFW39em2cdfdzlWOR/exec"
+    syncUrl: ""
   },
   stages: STAGES,
   days

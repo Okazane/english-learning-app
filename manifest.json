@@ -9,6 +9,21 @@
   "lang": "vi",
   "background_color": "#FAF7F2",
   "theme_color": "#C84B31",
-  "categories": ["education"],
-  "icons": []
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20fill%3D'%23C84B31'%2F%3E%3Cpath%20d%3D'M256%20150%2096%20222l160%2072%20160-72z'%20fill%3D'%23FAF7F2'%2F%3E%3Cpath%20d%3D'M160%20262v76c0%2022%2044%2050%2096%2050s96-28%2096-50v-76l-96%2044z'%20fill%3D'%23FAF7F2'%2F%3E%3Cpath%20d%3D'M416%20222v90'%20stroke%3D'%23FAF7F2'%20stroke-width%3D'14'%20stroke-linecap%3D'round'%2F%3E%3Ccircle%20cx%3D'416'%20cy%3D'322'%20r%3D'16'%20fill%3D'%23FAF7F2'%2F%3E%3C%2Fsvg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20512%20512'%3E%3Crect%20width%3D'512'%20height%3D'512'%20fill%3D'%23C84B31'%2F%3E%3Cpath%20d%3D'M256%20150%2096%20222l160%2072%20160-72z'%20fill%3D'%23FAF7F2'%2F%3E%3Cpath%20d%3D'M160%20262v76c0%2022%2044%2050%2096%2050s96-28%2096-50v-76l-96%2044z'%20fill%3D'%23FAF7F2'%2F%3E%3Cpath%20d%3D'M416%20222v90'%20stroke%3D'%23FAF7F2'%20stroke-width%3D'14'%20stroke-linecap%3D'round'%2F%3E%3Ccircle%20cx%3D'416'%20cy%3D'322'%20r%3D'16'%20fill%3D'%23FAF7F2'%2F%3E%3C%2Fsvg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

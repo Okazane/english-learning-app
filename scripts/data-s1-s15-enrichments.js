@@ -114,7 +114,7 @@ module.exports = {
       { en: "confident", pos: "adj", ipa: "/ˈkɑːnfɪdənt/", vi: "tự tin", example: "She feels confident about the tense mastery test." }
     ],
     6: [
-      { en: "hang out", pos: "v phr", ipa: "/hæŋ aʊt/", vi: "đi chơi cùng bạn bè", example: "Teenagers love hanging out at the shopping mall." },
+      { en: "can't stand", pos: "v phr", ipa: "/kænt stænd/", vi: "không chịu nổi, ghét", example: "I can't stand waiting in long queues." },
       { en: "surf the net", pos: "v phr", ipa: "/sɜːrf ðə net/", vi: "lướt mạng internet", example: "He spends two hours surfing the net every evening." },
       { en: "do DIY", pos: "v phr", ipa: "/duː ˌdiː aɪ ˈwaɪ/", vi: "tự làm đồ thủ công", example: "My dad enjoys doing DIY projects in the garage." },
       { en: "knit", pos: "v", ipa: "/nɪt/", vi: "đan len", example: "My grandmother fancies knitting wool sweaters." },
@@ -157,7 +157,7 @@ module.exports = {
       { en: "question tag", pos: "n phr", ipa: "/ˈkwestʃən tæɡ/", vi: "phần đuôi câu hỏi", example: "A positive statement takes a negative question tag." },
       { en: "preference", pos: "n", ipa: "/ˈprefərəns/", vi: "sự ưu tiên, thích hơn", example: "Use 'prefer V-ing to V-ing' to express preference." },
       { en: "passion", pos: "n", ipa: "/ˈpæʃn/", vi: "niềm đam mê", example: "Reading books is her greatest passion." },
-      { en: "countryside", pos: "n", ipa: "/ˈkʌntrisaɪd/", vi: "miền quê, nông thôn", example: "The air in the countryside is fresh and clean." },
+      { en: "suburb", pos: "n", ipa: "/ˈsʌbɜːrb/", vi: "vùng ngoại ô", example: "She lives in a quiet suburb outside the city." },
       { en: "metropolis", pos: "n", ipa: "/məˈtrɑːpəlɪs/", vi: "đô thị lớn, thủ phủ", example: "Ho Chi Minh City is a bustling metropolis." },
       { en: "destination", pos: "n", ipa: "/ˌdestɪˈneɪʃn/", vi: "điểm đến", example: "Ha Long Bay is the most popular destination." },
       { en: "enthusiastic", pos: "adj", ipa: "/ɪnˌθuːziˈæstɪk/", vi: "nhiệt tình, hào hứng", example: "The students are enthusiastic about the contest." },

@@ -159,7 +159,7 @@ module.exports = [
       { en: "keep up with", pos: "phr v", ipa: "/kiːp ʌp wɪð/", vi: "bắt kịp, theo kịp", example: "Walk slowly so the children can keep up with us." },
       { en: "habit", pos: "n", ipa: "/ˈhæbɪt/", vi: "thói quen", example: "'Used to' describes a past habit that has stopped." },
       { en: "routine", pos: "n", ipa: "/ruːˈtiːn/", vi: "nếp sinh hoạt hàng ngày", example: "Waking up early has become part of my daily routine." },
-      { en: "evidence", pos: "n", ipa: "/ˈevɪdəns/", vi: "bằng chứng", example: "Use 'must' when you have strong evidence for a deduction." },
+      { en: "get along with", pos: "v phr", ipa: "/ɡet əˈlɔːŋ wɪð/", vi: "hòa thuận với", example: "She gets along with all her classmates." },
       { en: "forecast", pos: "n", ipa: "/ˈfɔːrkæst/", vi: "dự báo thời tiết", example: "According to the forecast, it might snow tonight." },
       { en: "appointment", pos: "n", ipa: "/əˈpɔɪntmənt/", vi: "cuộc hẹn", example: "At 4 PM tomorrow, I will be having a dentist appointment." },
       { en: "perseverance", pos: "n", ipa: "/ˌpɜːrsəˈvɪrəns/", vi: "sự kiên trì, bền bỉ", example: "Perseverance means you never give up." }
@@ -306,8 +306,8 @@ module.exports = [
       { en: "avoid", pos: "v", ipa: "/əˈvɔɪd/", vi: "tránh (+ V-ing)", example: "You should avoid eating junk food late at night." },
       { en: "suggest", pos: "v", ipa: "/səˈdʒest/", vi: "gợi ý, đề xuất (+ V-ing)", example: "Minh suggested going to the museum by bus." },
       { en: "consider", pos: "v", ipa: "/kənˈsɪdər/", vi: "cân nhắc, xem xét (+ V-ing)", example: "Have you considered joining the debate club?" },
-      { en: "admit", pos: "v", ipa: "/ədˈmɪt/", vi: "thừa nhận (+ V-ing)", example: "He admitted breaking the classroom window." },
-      { en: "postpone", pos: "v", ipa: "/poʊˈspoʊn/", vi: "trì hoãn (+ V-ing)", example: "They postponed building the new stadium." },
+      { en: "deny", pos: "v", ipa: "/dɪˈnaɪ/", vi: "phủ nhận (+ V-ing)", example: "He denied breaking the classroom window." },
+      { en: "intend", pos: "v", ipa: "/ɪnˈtend/", vi: "dự định (+ to V)", example: "She intends to call me after the meeting." },
       { en: "decide", pos: "v", ipa: "/dɪˈsaɪd/", vi: "quyết định (+ to V)", example: "She decided to apply for the scholarship." },
       { en: "refuse", pos: "v", ipa: "/rɪˈfjuːz/", vi: "từ chối (+ to V)", example: "He refused to tell us his secret." },
       { en: "manage", pos: "v", ipa: "/ˈmænɪdʒ/", vi: "xoay xở, cố gắng làm được (+ to V)", example: "We managed to reach the summit before sunset." },
@@ -540,7 +540,7 @@ module.exports = [
           answer: "She invited a few close friends to her birthday dinner."
         },
         {
-          sentence: "There aren't many kursi/seats left in the theater. ➔ There are only ___ seats left in the theater. (few)",
+          sentence: "There aren't many seats left in the theater. ➔ There are only ___ seats left in the theater. (few)",
           hint: "Viết cả câu dùng only a few seats left in the theater",
           answer: "There are only a few seats left in the theater.",
           alternatives: ["There are only a few seats left in the theatre."]
@@ -590,7 +590,7 @@ module.exports = [
       { en: "midnight", pos: "n", ipa: "/ˈmɪdnaɪt/", vi: "nửa đêm (12 giờ đêm — dùng at midnight)", example: "The fireworks started right at midnight." },
       { en: "dawn", pos: "n", ipa: "/dɔːn/", vi: "bình minh, rạng đông (at dawn)", example: "Fishermen set sail at dawn every day." },
       { en: "century", pos: "n", ipa: "/ˈsentʃəri/", vi: "thế kỷ (in the 21st century)", example: "Technology has grown rapidly in the 21st century." },
-      { en: "anniversary", pos: "n", ipa: "/ˌænɪˈvɜːrsəri/", vi: "ngày kỷ niệm (on their anniversary)", example: "They went out for dinner on their wedding anniversary." },
+      { en: "spectacular", pos: "adj", ipa: "/spekˈtækjələr/", vi: "ngoạn mục, đẹp mắt", example: "What a spectacular view from the top of the mountain!" },
       { en: "intersection", pos: "n", ipa: "/ˌɪntərˈsekʃn/", vi: "ngã tư, giao lộ (at the intersection)", example: "Turn left at the next intersection." },
       { en: "floor", pos: "n", ipa: "/flɔːr/", vi: "tầng nhà (on the second floor)", example: "Our classroom is on the third floor." },
       { en: "neighborhood", pos: "n", ipa: "/ˈneɪbərhʊd/", vi: "khu phố, vùng lân cận (in the neighborhood)", example: "There is a quiet park in my neighborhood." }
@@ -736,7 +736,7 @@ module.exports = [
       { en: "allow", pos: "v", ipa: "/əˈlaʊ/", vi: "cho phép (+ O + to V = let + O + V)", example: "My parents don't allow me to stay out after 10 PM." },
       { en: "service", pos: "v", ipa: "/ˈsɜːrvɪs/", vi: "bảo dưỡng định kỳ (xe, máy móc)", example: "My dad has his motorbike serviced every six months." },
       { en: "redecorate", pos: "v", ipa: "/ˌriːˈdekəreɪt/", vi: "trang trí lại, sơn sửa lại", example: "They are having their living room redecorated." },
-      { en: "deliver", pos: "v", ipa: "/dɪˈlɪvər/", vi: "giao tận nơi", example: "We had the pizza delivered to our house." },
+      { en: "repair", pos: "v", ipa: "/rɪˈper/", vi: "sửa chữa", example: "I had my bike repaired at the shop yesterday." },
       { en: "dry-clean", pos: "v", ipa: "/ˈdraɪ kliːn/", vi: "giặt khô", example: "She got her winter coat dry-cleaned yesterday." }
     ],
     grammar: {
@@ -873,11 +873,11 @@ module.exports = [
       { en: "dedication", pos: "n", ipa: "/ˌdedɪˈkeɪʃn/", vi: "sự tận tâm, chuyên cần", example: "Your 30-day dedication has paid off!" },
       { en: "accomplish", pos: "v", ipa: "/əˈkɑːmplɪʃ/", vi: "hoàn thành xuất sắc, đạt được", example: "You have accomplished your 30-day English roadmap." },
       { en: "bilingual", pos: "adj", ipa: "/ˌbaɪˈlɪŋɡwəl/", vi: "song ngữ", example: "Bilingual flashcards help you remember meanings faster." },
-      { en: "milestone", pos: "n", ipa: "/ˈmaɪlstoʊn/", vi: "cột mốc", example: "Reaching CEFR B1 is an important milestone." },
+      { en: "determination", pos: "n", ipa: "/dɪˌtɜːrmɪˈneɪʃn/", vi: "sự quyết tâm", example: "Her determination helped her finish the 30-day course." },
       { en: "overcome", pos: "v", ipa: "/ˌoʊvərˈkʌm/", vi: "vượt qua (khó khăn, thử thách)", example: "She overcame her fear of speaking English in public." },
       { en: "competent", pos: "adj", ipa: "/ˈkɑːmpɪtənt/", vi: "có năng lực, giỏi", example: "You are now a competent independent language learner." },
       { en: "enrich", pos: "v", ipa: "/ɪnˈrɪtʃ/", vi: "làm giàu thêm, làm phong phú", example: "Learning new words every day enriches your vocabulary." },
-      { en: "transform", pos: "v", ipa: "/trænsˈfɔːrm/", vi: "chuyển đổi, biến đổi", example: "You can transform active sentences into passive ones easily." },
+      { en: "improvement", pos: "n", ipa: "/ɪmˈpruːvmənt/", vi: "sự cải thiện, tiến bộ", example: "Your improvement over the last 30 days is remarkable." },
       { en: "persistent", pos: "adj", ipa: "/pərˈsɪstənt/", vi: "kiên trì, bền bỉ", example: "Persistent learners always achieve their goals." },
       { en: "journey", pos: "n", ipa: "/ˈdʒɜːrni/", vi: "hành trình", example: "Language learning is an exciting lifelong journey." }
     ],

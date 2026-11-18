@@ -1,5 +1,5 @@
 /* English Learning App — offline cache (app shell + curriculum). */
-var CACHE = 'english-learning-app-v1';
+var CACHE = 'english-learning-app-v2';
 var ASSETS = [
   'index.html',
   'lesson.html',
@@ -33,23 +33,36 @@ self.addEventListener('activate', function (event) {
   );
 });
 
+// lesson.html?day=1 ... ?day=30 is one and the same document, so HTML pages are cached under their
+// path only (no query string): a single copy of lesson.html instead of 30.
+function cacheKey(req) {
+  var url = new URL(req.url);
+  if (url.search && (/\.html$/.test(url.pathname) || req.mode === 'navigate')) {
+    return new Request(url.origin + url.pathname, { method: 'GET' });
+  }
+  return req;
+}
+
 // Network-first for same-origin GETs (so edits show up), falling back to cache offline.
 self.addEventListener('fetch', function (event) {
   var req = event.request;
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  var key = cacheKey(req);
   event.respondWith(
     fetch(req)
       .then(function (res) {
-        if (res && res.ok) {
+        if (res && res.ok && res.type === 'basic') {
           var copy = res.clone();
-          caches.open(CACHE).then(function (c) { c.put(req, copy); });
+          caches.open(CACHE).then(function (c) { return c.put(key, copy); }).catch(function () { });
         }
         return res;
       })
       .catch(function () {
-        return caches.match(req, { ignoreSearch: true }).then(function (hit) {
+        return caches.match(key, { ignoreSearch: true }).then(function (hit) {
+          return hit || caches.match(req, { ignoreSearch: true });
+        }).then(function (hit) {
           return hit || (req.mode === 'navigate' ? caches.match('index.html') : undefined);
         });
       })

@@ -96,24 +96,55 @@
 
   /* ---------- speech ---------- */
   var HAS_TTS = 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance !== 'undefined';
+  var enVoice = null, speakTimer = null;
+  function pickVoice() {
+    if (!HAS_TTS) return null;
+    try {
+      var vs = window.speechSynthesis.getVoices() || [];
+      var pick = null;
+      for (var k = 0; k < vs.length && !pick; k++) if (/^en[-_]US$/i.test(vs[k].lang || '')) pick = vs[k];
+      for (var j = 0; j < vs.length && !pick; j++) if (/^en/i.test(vs[j].lang || '')) pick = vs[j];
+      return pick;
+    } catch (e) { return null; }
+  }
+  if (HAS_TTS) {
+    enVoice = pickVoice();
+    try {
+      if (window.speechSynthesis.addEventListener) window.speechSynthesis.addEventListener('voiceschanged', function () { enVoice = pickVoice(); });
+      else window.speechSynthesis.onvoiceschanged = function () { enVoice = pickVoice(); };
+    } catch (e) { }
+  }
   function makeUtterance(text, pitch) {
     var u = new SpeechSynthesisUtterance(String(text));
     u.lang = 'en-US';
     u.rate = 0.9;
+    if (enVoice) { try { u.voice = enVoice; } catch (e) { } }   // no voices installed: the browser default is used
     if (pitch) u.pitch = pitch;
     return u;
+  }
+  // cancel() directly followed by speak() is dropped by some browsers, and rapid clicks can queue
+  // a pile of utterances, so only the latest request is spoken, after a short delay.
+  function safeSpeak(u, delay) {
+    if (!HAS_TTS || !u) return;
+    clearTimeout(speakTimer);
+    try { window.speechSynthesis.cancel(); } catch (e) { }
+    speakTimer = setTimeout(function () {
+      try {
+        if (window.speechSynthesis.paused && window.speechSynthesis.resume) window.speechSynthesis.resume();
+        window.speechSynthesis.speak(u);
+      } catch (e) { }
+    }, delay == null ? 60 : delay);
   }
   function speak(text) {
     if (!HAS_TTS || !text) return;
     stopDialogue();
-    try { window.speechSynthesis.cancel(); window.speechSynthesis.speak(makeUtterance(stripHtml(text))); } catch (e) { }
+    try { safeSpeak(makeUtterance(stripHtml(text))); } catch (e) { }
   }
 
   /* ---------- sync (Google Sheets) ---------- */
   function syncUrl() {
-    var v = loadStr(KEYS.syncUrl, '');
-    if (!v && CUR.meta && CUR.meta.syncUrl) v = CUR.meta.syncUrl;
-    return v || '';
+    // Only the URL the learner saved on this device counts. An empty value means "keep progress local only".
+    return String(loadStr(KEYS.syncUrl, '') || '').trim();
   }
   function syncNow() {
     var url = syncUrl();
@@ -143,7 +174,19 @@
     [/\bain['’]t\b/g, 'is not'],
     [/\blet['’]s\b/g, 'let us']
   ];
-  function normalizeAnswer(s) {
+  // Past participles that follow "'s" (= has) / "'d" (= had), e.g. "he's gone", "she's never seen".
+  var V3 = /^(been|got|gotten|gone|done|seen|taken|given|eaten|made|known|written|spoken|broken|chosen|driven|begun|come|become|run|met|heard|read|said|told|found|lost|left|lived|bought|brought|thought|taught|caught|built|sent|spent|paid|won|had|put|set|let|cut|hit|worn|drunk|sung|swum|flown|grown|shown|thrown|drawn|ridden|forgotten|fallen|hidden|stolen|woken|sold|kept|felt|held|stood|slept|sat|lent|meant|led|fed|dug)$/;
+  var HAS_ADV = /^(never|already|just|ever|always|recently|lately|yet|still|not|really|finally)$/;
+  function nextWord(str, from) {
+    var m = /^\s*([a-z]+)/.exec(str.slice(from));
+    return m ? m[1] : '';
+  }
+  function looksPerfect(w) {
+    return V3.test(w) || HAS_ADV.test(w) || /ed$/.test(w);
+  }
+  // mode 0: guess is/has and would/had from context; 1: always is / would; 2: always has / had.
+  // "he's tired" can be read both ways, so textMatches() compares all three readings.
+  function normalizeMode(s, mode) {
     var t = String(s == null ? '' : s).replace(/\*\*/g, '').replace(/<[^>]*>/g, ' ');
     t = t.toLowerCase().replace(/[\u2018\u2019\u02bc`\u00b4]/g, "'");
     IRREGULAR.forEach(function (r) { t = t.replace(r[0], r[1]); });
@@ -152,12 +195,25 @@
     t = t.replace(/\b([a-z]+)'re\b/g, '$1 are');            // you're, we're, they're
     t = t.replace(/\b([a-z]+)'ve\b/g, '$1 have');           // I've, we've, they've
     t = t.replace(/\b([a-z]+)'ll\b/g, '$1 will');           // I'll, she'll
-    t = t.replace(/\b(he|she|it|that|there|here|what|who|where|how)'s\b/g, '$1 is'); // he's, she's, it's
+    t = t.replace(/\b(he|she|it|that|there|here|what|who|where|how|when|why)'s\b/g, function (m, w, off, str) {
+      var has = mode === 2 || (mode === 0 && looksPerfect(nextWord(str, off + m.length)));
+      return w + (has ? ' has' : ' is');                    // he's been = he has been, he's happy = he is happy
+    });
+    t = t.replace(/\b([a-z]+)'d\b/g, function (m, w, off, str) {
+      var nx = nextWord(str, off + m.length);
+      var had = mode === 2 || (mode === 0 && (nx === 'better' || looksPerfect(nx)));
+      return w + (had ? ' had' : ' would');                 // I'd better = I had better, I'd like = I would like
+    });
     t = t.replace(/[^a-z0-9'\s\-\u00c0-\u1ef9]/g, ' ');     // punctuation becomes a space (possessive apostrophes stay)
     t = t.replace(/(^|\s)'+|'+(\s|$)/g, ' ');               // stray quote marks
     return t.replace(/\s+/g, ' ').trim();
   }
-  function splitAlternatives(a) {
+  function normalizeAnswer(s) { return normalizeMode(s, 0); }
+  function normalizeVariants(s) {
+    var out = [];
+    [0, 1, 2].forEach(function (m) { var v = normalizeMode(s, m); if (out.indexOf(v) === -1) out.push(v); });
+    return out;
+  }  function splitAlternatives(a) {
     if (a == null) return [];
     if (Array.isArray(a)) return a.reduce(function (acc, x) { return acc.concat(splitAlternatives(x)); }, []);
     return String(a).split(/\s+\|\s+|\s+\/\s+/).filter(function (x) { return x.trim(); });
@@ -169,10 +225,36 @@
     });
     return out;
   }
+  var BLANK_G = /_{2,}/g;
+  function countBlanks(s) { var m = String(s == null ? '' : s).match(BLANK_G); return m ? m.length : 0; }
+  // "___ you ___ (look)": the learner may type only the verb ("are looking") or the whole phrase
+  // including the words between the blanks ("are you looking"), so both are accepted.
+  function middleWords(q) {
+    var s = String(promptOf(q));
+    var parts = s.split(BLANK_G);
+    if (parts.length !== 3) return '';                     // exactly two blanks
+    var mid = parts[1].replace(/\s+/g, ' ').trim();
+    if (!/^[A-Za-z' ]{1,40}$/.test(mid) || mid.split(' ').length > 3) return '';
+    return mid;
+  }
+  function withMiddle(ans, mid) {
+    var w = String(ans).trim().split(/\s+/);
+    if (w.length < 2) return null;
+    return [w[0], mid].concat(w.slice(1)).join(' ');
+  }
+  function acceptedAnswers(q) {
+    var list = answerList(q);
+    var mid = middleWords(q);
+    if (mid) list.slice().forEach(function (a) { var f = withMiddle(a, mid); if (f) list.push(f); });
+    return list;
+  }
   function textMatches(user, q) {
-    var u = normalizeAnswer(user);
-    if (!u) return false;
-    return answerList(q).some(function (a) { return normalizeAnswer(a) === u; });
+    var uv = normalizeVariants(user);
+    if (!uv[0]) return false;
+    return acceptedAnswers(q).some(function (a) {
+      var av = normalizeVariants(a);
+      return av.some(function (x) { return uv.indexOf(x) !== -1; });
+    });
   }
   function displayAnswer(q) {
     var l = splitAlternatives(q.answer);
@@ -418,6 +500,34 @@
       var c = closest(ev.target, '.vcard');
       if (c && ev.target === c) { ev.preventDefault(); flip(c); }
     });
+
+    // Deck shortcuts: Left = previous card, Right = next card, Space = flip.
+    document.addEventListener('keydown', function (ev) {
+      if (ev.defaultPrevented || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+      var k = ev.key;
+      if (k !== 'ArrowLeft' && k !== 'ArrowRight' && k !== ' ' && k !== 'Spacebar') return;
+      var deck = $('vocab-deck');
+      if (tab.hidden || !deck || deck.hidden) return;
+      var t = ev.target;
+      var tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (t && t.isContentEditable)) return;
+      if (closest(t, '#lesson-tabs')) return;            // the step bar has its own arrow-key handling
+      var vocab = D.vocab || [];
+      if (k === ' ' || k === 'Spacebar') {
+        // buttons and the focused card already react to Space themselves
+        if (tag === 'button' || tag === 'a' || closest(t, '.vcard')) return;
+        ev.preventDefault();
+        flip(deck.querySelector('.vcard-deck'));
+        return;
+      }
+      ev.preventDefault();
+      var next = deckIndex + (k === 'ArrowRight' ? 1 : -1);
+      if (next < 0 || next > vocab.length - 1) return;
+      var hadFocus = !!closest(t, '#vocab-deck');
+      deckIndex = next;
+      renderDeck(false);
+      if (hadFocus) { var c = deck.querySelector('.vcard-deck'); if (c && c.focus) c.focus({ preventScroll: true }); }
+    });
   }
 
   /* ---------- Step 2: grammar ---------- */
@@ -478,6 +588,7 @@
     dlgToken++;
     if (dlgPlaying) {
       dlgPlaying = false;
+      clearTimeout(speakTimer);
       if (HAS_TTS) try { window.speechSynthesis.cancel(); } catch (e) { }
       highlightLine(-1);
       setPlayLabel();
@@ -492,6 +603,7 @@
     var token = ++dlgToken;
     dlgPlaying = true;
     setPlayLabel();
+    clearTimeout(speakTimer);
     try { window.speechSynthesis.cancel(); } catch (e) { }
     var i = 0;
     (function next() {
@@ -502,7 +614,7 @@
       var u = makeUtterance(lines[idx].en, speakerPitch(lines[idx].speaker, speakers));
       u.onend = function () { setTimeout(next, 250); };
       u.onerror = function () { setTimeout(next, 0); };
-      try { window.speechSynthesis.speak(u); } catch (e) { dlgPlaying = false; setPlayLabel(); }
+      try { window.speechSynthesis.speak(u); } catch (e) { dlgPlaying = false; highlightLine(-1); setPlayLabel(); }
     })();
   }
 
@@ -533,10 +645,10 @@
         highlightLine(i);
         if (!HAS_TTS) return;
         try {
-          window.speechSynthesis.cancel();
           var u = makeUtterance(dlg.lines[i].en, speakerPitch(dlg.lines[i].speaker, speakers));
           u.onend = function () { highlightLine(-1); };
-          window.speechSynthesis.speak(u);
+          u.onerror = function () { highlightLine(-1); };
+          safeSpeak(u);
         } catch (e) { }
       });
     }
@@ -572,12 +684,21 @@
   function qEl(type, i) { return $('q-' + type + '-' + i); }
 
   var BLANK_RE = /_{2,}/;
-  // Put the input where "___" is; fall back to appending it after the sentence.
-  function sentenceWithInput(sentence, inputHtml) {
+  // Put an input where each "___" is; fall back to appending one input after the sentence.
+  // makeInput is either a function (partIndex, totalParts) => html, or a ready-made html string
+  // (only sensible for a single blank).
+  function sentenceWithInput(sentence, makeInput) {
     var s = String(sentence);
-    var m = BLANK_RE.exec(s);
-    if (!m) return '<span class="q-seg">' + esc(s) + '</span> ' + inputHtml;
-    return '<span class="q-seg">' + esc(s.slice(0, m.index)) + '</span>' + inputHtml + '<span class="q-seg">' + esc(s.slice(m.index + m[0].length)) + '</span>';
+    var segs = s.split(BLANK_G);
+    var n = segs.length - 1;
+    function inp(k, total) { return typeof makeInput === 'function' ? makeInput(k, total) : String(makeInput); }
+    if (n < 1) return '<span class="q-seg">' + esc(s) + '</span> ' + inp(0, 1);
+    var out = '';
+    for (var k = 0; k < segs.length; k++) {
+      out += '<span class="q-seg">' + esc(segs[k]) + '</span>';
+      if (k < n) out += inp(k, n);
+    }
+    return out;
   }
   function qPrompt(n, innerHtml) {
     return '<p class="q-text"><span class="q-num">' + n + '.</span>' + innerHtml + '</p>';
@@ -585,8 +706,13 @@
   function hintHtml(q) {
     return q.hint ? '<p class="q-hint"><span class="q-hint-label">Gợi ý:</span> ' + esc(q.hint) + '</p>' : '';
   }
-  function inputHtml(cls, type, i) {
-    return '<input type="text" class="' + cls + '" data-type="' + type + '" data-i="' + i + '" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Đáp án câu ' + (i + 1) + '">';
+  function inputHtml(cls, type, i, part, total) {
+    part = part || 0; total = total || 1;
+    var multi = total > 1;
+    return '<input type="text" class="' + cls + (multi ? ' fill-input-part' : '') + '" data-type="' + type + '" data-i="' + i + '" data-part="' + part + '" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Đáp án câu ' + (i + 1) + (multi ? ', ô ' + (part + 1) + ' trên ' + total : '') + '">';
+  }
+  function inputMaker(cls, type, i) {
+    return function (part, total) { return inputHtml(cls, type, i, part, total); };
   }
 
   function resolveMcAnswerIndex(q) {
@@ -618,7 +744,7 @@
     var box = $('eng-fill'); if (!box) return;
     box.innerHTML = EX.fill.map(function (q, i) {
       return '<div class="q-item" data-type="fill" data-i="' + i + '" id="q-fill-' + i + '">' +
-        qPrompt(i + 1, sentenceWithInput(promptOf(q), inputHtml('fill-input', 'fill', i))) +
+        qPrompt(i + 1, sentenceWithInput(promptOf(q), inputMaker('fill-input', 'fill', i))) +
         hintHtml(q) +
         '<p class="q-feedback" aria-live="polite"></p>' +
       '</div>';
@@ -674,13 +800,12 @@
   function renderTextType(key, boxId, cls) {
     var box = $(boxId); if (!box) return;
     box.innerHTML = EX[key].map(function (q, i) {
-      var inp = inputHtml(cls, key, i);
       var p = promptOf(q);
       var inline = BLANK_RE.test(p);
       return '<div class="q-item" data-type="' + key + '" data-i="' + i + '" id="q-' + key + '-' + i + '">' +
-        qPrompt(i + 1, inline ? sentenceWithInput(p, inp) : ' ' + esc(p)) +
+        qPrompt(i + 1, inline ? sentenceWithInput(p, inputMaker(cls, key, i)) : ' ' + esc(p)) +
         hintHtml(q) +
-        (inline ? '' : '<div class="q-answer-row">' + inp + '</div>') +
+        (inline ? '' : '<div class="q-answer-row">' + inputHtml(cls, key, i, 0, 1) + '</div>') +
         '<p class="q-feedback" aria-live="polite"></p>' +
       '</div>';
     }).join('');
@@ -695,8 +820,14 @@
       var st = buildState[i];
       return st.chosen.length > 0 && st.chosen.length === st.words.length;
     }
-    var inp = el.querySelector('input[type=text]');
-    return !!(inp && inp.value.trim());
+    var inps = el.querySelectorAll('input[type=text]');
+    if (!inps.length) return false;
+    if (inps.length === 1) return !!inps[0].value.trim();
+    // several blanks: answered when every box has text, or when the first box already holds a
+    // multi-word answer (e.g. "are you looking" typed into box 1)
+    var all = true;
+    each(inps, function (x) { if (!x.value.trim()) all = false; });
+    return all || inps[0].value.trim().split(/\s+/).length > 1;
   }
   function countAnswered() {
     var n = 0;
@@ -734,8 +865,9 @@
       ok = st.chosen.length > 0 && textMatches(given, q);
       expected = displayAnswer(q);
     } else {
-      var inp = el.querySelector('input[type=text]');
-      given = inp ? inp.value : '';
+      var inputs = Array.prototype.slice.call(el.querySelectorAll('input[type=text]'));
+      // "are" + "looking" and "are you looking" in box 1 both grade as the same answer
+      given = inputs.map(function (x) { return x.value.trim(); }).filter(Boolean).join(' ');
       ok = textMatches(given, q);
       expected = displayAnswer(q);
     }
@@ -745,7 +877,7 @@
   function lockQuestion(type, i, on) {
     var el = qEl(type, i);
     if (on) locked[qid(type, i)] = true; else delete locked[qid(type, i)];
-    each(el.querySelectorAll('input'), function (inp) { inp.disabled = !!on; });
+    each(el.querySelectorAll('input'), function (inp) { inp.disabled = !!on; });   // every box of a multi-blank question
     if (type === 'build') renderBuildQuestion(i);
   }
 
@@ -964,7 +1096,7 @@
     }
   }
 
-  window.EngLesson = { normalizeAnswer: normalizeAnswer, textMatches: textMatches };
+  window.EngLesson = { normalizeAnswer: normalizeAnswer, textMatches: textMatches, sentenceWithInput: sentenceWithInput, countBlanks: countBlanks };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

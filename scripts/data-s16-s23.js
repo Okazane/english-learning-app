@@ -227,7 +227,7 @@ module.exports = [
       fillBlank: [
         { sentence: "The new metro line ___ (complete) next December.", answer: "will be completed", hint: "bị động tương lai đơn (will be + V3)" },
         { sentence: "All application forms must ___ (submit) before Friday.", answer: "be submitted", hint: "bị động với must (be + V3)" },
-        { sentence: "Hundreds of trees ___ already ___ (plant) along the river.", answer: "have been planted", hint: "bị động hiện tại hoàn thành số nhiều" },
+        { sentence: "Hundreds of trees ___ already ___ (plant) along the river.", answer: "have been planted", alternatives: ["have already been planted"], hint: "bị động hiện tại hoàn thành số nhiều" },
         { sentence: "This problem can ___ (solve) easily if we work together.", answer: "be solved", hint: "bị động với can (be + V3)" },
         { sentence: "My smartphone ___ (not / repair) yet.", answer: "has not been repaired", hint: "bị động hiện tại hoàn thành phủ định" },
         { sentence: "Helmets have to ___ (wear) by all motorbike riders.", answer: "be worn", hint: "bị động với have to (be + V3 của wear)" },
@@ -526,7 +526,7 @@ module.exports = [
         { sentence: "They asked us what time the train ___ (will) arrive.", answer: "would", hint: "lùi will ➔ would" },
         { sentence: "Lan asked me how long I ___ (learn) English.", answer: "had learned", alternatives: ["had learnt", "had been learning"], hint: "lùi hiện tại hoàn thành ➔ quá khứ hoàn thành" },
         { sentence: "He asked me whether I ___ (can) swim.", answer: "could", hint: "lùi can ➔ could" },
-        { sentence: "She asked me what ___ (be) my favorite subject. ➔ She asked me what my favorite subject ___.", answer: "was", hint: "đưa động từ to be (was) ra cuối sau chủ ngữ" }
+        { sentence: "Direct: 'What is your favorite subject?' -> She asked me what my favorite subject ___ (be).", answer: "was", hint: "Câu tường thuật: lùi thì động từ to be (is -> ?), đặt sau chủ ngữ" }
       ],
       sentenceBuild: [
         { words: ["She", "asked", "me", "if", "I", "liked", "coffee", "."], answer: "She asked me if I liked coffee ." },
@@ -570,7 +570,7 @@ module.exports = [
       review: [
         { sentence: "He told me that he ___ (visit) his uncle the next day.", answer: "would visit", hint: "Ôn tập Câu tường thuật dạng câu kể" },
         { sentence: "These solar panels ___ (install) by the technicians last week.", answer: "were installed", hint: "Ôn tập Bị động quá khứ đơn" },
-        { sentence: "All tickets ___ already ___ (sell) out.", answer: "have been sold", hint: "Ôn tập Bị động hiện tại hoàn thành" },
+        { sentence: "All tickets ___ already ___ (sell) out.", answer: "have been sold", alternatives: ["have already been sold"], hint: "Ôn tập Bị động hiện tại hoàn thành" },
         { sentence: "Unless you ___ (wear) a warm coat, you will catch a cold.", answer: "wear", hint: "Ôn tập Câu điều kiện Loại 1" },
         { sentence: "Mount Everest is the ___ (high) mountain in the world.", answer: "highest", hint: "Ôn tập So sánh nhất" }
       ]
@@ -757,9 +757,9 @@ module.exports = [
       { en: "high-speed", pos: "adj", ipa: "/ˌhaɪ ˈspiːd/", vi: "tốc độ cao, cao tốc", example: "We will be traveling on a high-speed train at 9 AM tomorrow." },
       { en: "present", pos: "v", ipa: "/prɪˈzent/", vi: "thuyết trình, trình bày", example: "Don't call me at 3 PM; I will be presenting my project." },
       { en: "rehearse", pos: "v", ipa: "/rɪˈhɜːrs/", vi: "diễn tập, tập dượt", example: "The band will be rehearsing for the concert all afternoon tomorrow." },
-      { en: "broadcast", pos: "v", ipa: "/ˈbrɔːdkæst/", vi: "truyền hình, phát sóng", example: "The channel will be broadcasting the game at 8 PM tonight." },
+      { en: "depart", pos: "v", ipa: "/dɪˈpɑːrt/", vi: "khởi hành, rời đi", example: "The train will be departing from platform 3 at this time tomorrow." },
       { en: "relocate", pos: "v", ipa: "/ˌriːloʊˈkeɪt/", vi: "chuyển chỗ ở / văn phòng", example: "Next month, our company will be relocating to a greener building." },
-      { en: "celebrate", pos: "v", ipa: "/ˈselɪbreɪt/", vi: "đón mừng, kỷ niệm", example: "At midnight on New Year's Eve, everyone will be celebrating." },
+      { en: "stroll", pos: "v", ipa: "/stroʊl/", vi: "đi dạo thong thả", example: "We will be strolling along the beach at sunset." },
       { en: "itinerary", pos: "n", ipa: "/aɪˈtɪnəreri/", vi: "lịch trình chuyến đi", example: "According to our itinerary, we will be visiting Hue on Tuesday." }
     ],
     grammar: {
