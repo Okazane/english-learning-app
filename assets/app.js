@@ -231,7 +231,7 @@
     setText('today-title', d.title + (d.titleEn ? ' / ' + d.titleEn : ''));
     setText('today-goal', d.dailyGoal || '');
     setText('today-vocab-count', dayVocabCount(d) + ' từ mới');
-    setText('today-grammar-note', d.grammar && d.grammar.point ? stripHtml(d.grammar.point) : 'công thức và ví dụ');
+    setText('today-grammar-note', 'Công thức & cấu trúc');
     setText('today-dialogue-note', hasDialogue(d) ? (d.dialogue.lines.length + ' câu hội thoại') : 'bài thi, không có hội thoại');
     setText('today-practice-count', dayQuestionCount(d) + ' câu hỏi');
     setText('today-minutes', 'Khoảng ' + (d.estimatedMinutes || 20) + ' phút');
@@ -269,6 +269,8 @@
     var status = '';
     if (done) status = '<span class="day-status">' + icon('check') + 'Hoàn thành</span>';
     else if (d.isExam) status = '<span class="day-status">Bài thi Cột mốc</span>';
+    else if (d.day === todayNo) status = '<span class="day-status">Bài học hôm nay</span>';
+    else status = '<span class="day-status">' + dayVocabCount(d) + ' từ · ' + dayQuestionCount(d) + ' câu hỏi</span>';
     var cls = 'day-card' + (done ? ' is-done' : '') + (d.isExam ? ' is-exam' : '') + (d.day === todayNo ? ' is-today' : '');
     return '<li><a class="' + cls + '" href="lesson.html?day=' + d.day + '" data-day="' + d.day + '"' + (d.day === todayNo ? ' aria-current="step"' : '') + '>' +
       '<span class="day-num">Day ' + pad2(d.day) + '</span>' +
@@ -498,7 +500,12 @@
     window.addEventListener('storage', function (e) { if (!e.key || e.key.indexOf('eng:') === 0) refreshAll(); });
     window.addEventListener('pageshow', function (e) { if (e.persisted) refreshAll(); });
     if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-      navigator.serviceWorker.register('sw.js').catch(function () { });
+      navigator.serviceWorker.register('sw.js').then(function (r) { if (r && r.update) r.update(); }).catch(function () { });
+      if (navigator.serviceWorker.getRegistrations) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { if (r && r.update) r.update(); });
+        }).catch(function () { });
+      }
     }
   }
 

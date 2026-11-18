@@ -9,8 +9,8 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=5">
 <script>
 (function () {
   try {
@@ -100,12 +100,12 @@
             </button>
             <button class="seg" type="button" id="vocab-mode-deck" aria-pressed="false">
               <svg class="icon" aria-hidden="true"><use href="#i-deck"/></svg>
-              <span class="btn-label">Từng thẻ</span>
+              <span class="btn-label">Flashcard</span>
             </button>
           </div>
         </div>
       </div>
-      <p class="panel-hint">Chạm vào thẻ để lật xem nghĩa tiếng Việt và câu ví dụ.</p>
+      <p class="panel-hint">Danh sách từ vựng trọng tâm trong bài — bấm biểu tượng loa để nghe phát âm chuẩn Mỹ, hoặc chuyển sang chế độ Từng thẻ để tự kiểm tra trí nhớ.</p>
       <div class="vocab-grid" id="vocab-grid"></div>
       <div class="vocab-deck" id="vocab-deck" hidden></div>
       <div class="panel-foot">
@@ -209,7 +209,7 @@
   <nav class="lesson-nav" id="lesson-nav" aria-label="Chuyển ngày học"></nav>
 </main>
 
-<script src="data/curriculum.js"></script>
-<script src="assets/lesson.js"></script>
+<script src="data/curriculum.js?v=5"></script>
+<script src="assets/lesson.js?v=5"></script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 /* English Learning App — offline cache (app shell + curriculum). */
-var CACHE = 'english-learning-app-v2';
+var CACHE = 'english-learning-app-v5';
 var ASSETS = [
   'index.html',
   'lesson.html',
-  'assets/style.css',
-  'assets/app.js',
-  'assets/lesson.js',
-  'data/curriculum.js',
+  'assets/style.css?v=5',
+  'assets/app.js?v=5',
+  'assets/lesson.js?v=5',
+  'data/curriculum.js?v=5',
   'manifest.json'
 ];
 

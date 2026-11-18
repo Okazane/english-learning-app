@@ -377,11 +377,11 @@
   }
   function masterBtn(v, cls) {
     var on = isMastered(v.en);
-    return '<button type="button" class="vcard-master ' + (cls || '') + (on ? ' is-on' : '') + '" data-master="' + esc(v.en) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+    return '<button type="button" class="vcard-master' + (cls ? ' ' + cls : '') + (on ? ' is-on' : '') + '" data-master="' + esc(v.en) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
       (on ? 'Đã thuộc' : 'Đánh dấu đã thuộc') + '</button>';
   }
-  function speakBtn(text, label) {
-    return '<button type="button" class="icon-btn" data-speak="' + esc(text) + '" aria-label="' + esc(label) + '">' + icon('speaker') + '</button>';
+  function speakBtn(text, label, extraCls) {
+    return '<button type="button" class="icon-btn' + (extraCls ? ' ' + extraCls : '') + '" data-speak="' + esc(text) + '" aria-label="' + esc(label) + '">' + icon('speaker') + '</button>';
   }
   function cardInner(v, withMaster) {
     return '<div class="vcard-inner">' +
@@ -404,9 +404,29 @@
     var grid = $('vocab-grid');
     if (!grid) return;
     grid.innerHTML = (D.vocab || []).map(function (v) {
-      return '<div class="vcard' + (isMastered(v.en) ? ' is-mastered' : '') + '" tabindex="0" role="button" aria-pressed="false" aria-label="Thẻ từ ' + esc(v.en) + ', bấm để lật">' +
-        cardInner(v, true) +
-      '</div>';
+      var on = isMastered(v.en);
+      return '<article class="vcard vcard-open' + (on ? ' is-mastered' : '') + '" data-en="' + esc(v.en) + '">' +
+        '<div class="vcard-top">' +
+          '<div class="vcard-head">' +
+            '<strong class="vcard-en">' + esc(v.en) + '</strong>' +
+            '<span class="vcard-pos">' + esc(v.pos || '') + '</span>' +
+          '</div>' +
+          '<div class="vcard-tools">' +
+            '<span class="vcard-ipa">' + esc(v.ipa || '') + '</span>' +
+            speakBtn(v.en, 'Phát âm ' + v.en) +
+          '</div>' +
+        '</div>' +
+        '<p class="vcard-vi">' + esc(v.vi || '') + '</p>' +
+        (v.example ? (
+          '<div class="vcard-ex-row">' +
+            '<p class="vcard-ex">"' + esc(v.example) + '"</p>' +
+            speakBtn(v.example, 'Nghe câu ví dụ', 'icon-btn-sm') +
+          '</div>'
+        ) : '') +
+        '<div class="vcard-foot">' +
+          masterBtn(v) +
+        '</div>' +
+      '</article>';
     }).join('');
   }
 
@@ -441,12 +461,12 @@
     var hint = document.querySelector('#tab-vocab .panel-hint');
     if (hint) hint.textContent = isDeck
       ? 'Học từng thẻ một: lật thẻ, nghe phát âm, rồi đánh dấu những từ đã thuộc.'
-      : 'Chạm vào thẻ để lật xem nghĩa tiếng Việt và câu ví dụ.';
+      : 'Danh sách từ vựng trọng tâm trong bài — bấm biểu tượng loa để nghe phát âm chuẩn Mỹ, hoặc chuyển sang chế độ Từng thẻ để tự kiểm tra trí nhớ.';
     if (isDeck) renderDeck(false);
   }
 
   function flip(card) {
-    if (!card) return;
+    if (!card || card.classList.contains('vcard-open')) return;
     var on = card.classList.toggle('is-flipped');
     card.setAttribute('aria-pressed', on ? 'true' : 'false');
   }
@@ -1092,7 +1112,12 @@
       if (document.visibilityState === 'hidden') { stopDialogue(); syncNow(); }
     });
     if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-      navigator.serviceWorker.register('sw.js').catch(function () { });
+      navigator.serviceWorker.register('sw.js').then(function (r) { if (r && r.update) r.update(); }).catch(function () { });
+      if (navigator.serviceWorker.getRegistrations) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { if (r && r.update) r.update(); });
+        }).catch(function () { });
+      }
     }
   }
 
