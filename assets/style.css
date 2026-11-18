@@ -1,5 +1,6 @@
 /* English Learning App — DOL English & ZIM Academy Modern LMS Stylesheet
- * Clean, high-contrast academic study portal with Be Vietnam Pro + JetBrains Mono.
+ * Clean, high-contrast academic study portal with Inter + Be Vietnam Pro + JetBrains Mono.
+ * Optimized for silky-smooth subpixel/optical font rendering on Windows & macOS.
  * Zero gradients, zero blur/glassmorphism, zero keyframes, zero card scrollbars.
  */
 
@@ -29,15 +30,15 @@
   --z-sticky: 200;
   --z-modal: 400;
 
-  /* Light Mode */
+  /* Light Mode — Softened Slate Ink (#0F172A headings, #1E293B body) */
   --color-paper: #F4F6F8;
   --color-paper-2: #EEF2F6;
   --color-card: #FFFFFF;
-  --color-ink: #111827;
-  --color-ink-2: #374151;
-  --color-muted: #6B7280;
-  --color-rule: #E5E7EB;
-  --color-rule-strong: #D1D5DB;
+  --color-ink: #0F172A;
+  --color-ink-2: #1E293B;
+  --color-muted: #64748B;
+  --color-rule: #E2E8F0;
+  --color-rule-strong: #CBD5E1;
 
   --color-accent: #C81E1E;
   --color-accent-hover: #9B1C1C;
@@ -62,15 +63,15 @@
   --color-amber-border: #FCD34D;
 
   --color-highlight: #FEF08A;
-  --color-focus: #111827;
-  --color-scrim: rgba(17, 24, 39, 0.52);
+  --color-focus: #0F172A;
+  --color-scrim: rgba(15, 23, 42, 0.52);
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 4px 12px rgba(17, 24, 39, 0.08);
-  --shadow-sheet: 0 12px 32px rgba(17, 24, 39, 0.16);
+  --shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-sheet: 0 12px 32px rgba(15, 23, 42, 0.16);
 
-  --font-body: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Be Vietnam Pro", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
 
   --radius: 8px;
@@ -129,6 +130,12 @@
 
 html, body {
   overflow-x: clip;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "kern" 1;
+  font-synthesis: none;
 }
 
 html {
@@ -140,11 +147,11 @@ body {
   margin: 0;
   min-height: 100dvh;
   background: var(--color-paper);
-  color: var(--color-ink);
+  color: var(--color-ink-2);
   font-family: var(--font-body);
   font-size: var(--text-md);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  line-height: 1.65;
   caret-color: var(--color-accent);
 }
 
@@ -171,9 +178,9 @@ a {
 h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.015em;
-  line-height: 1.3;
+  line-height: 1.35;
   color: var(--color-ink);
   overflow-wrap: break-word;
   word-break: normal;
@@ -402,7 +409,7 @@ svg {
   border: 1px solid var(--color-navy-border);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
 }
@@ -497,11 +504,12 @@ svg {
 }
 
 .brand-name {
+  font-family: var(--font-display);
   font-size: 1.0625rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--color-ink);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
 }
 
 .brand-sub {
@@ -537,7 +545,7 @@ svg {
 .stat-value {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
 }
 
@@ -563,8 +571,9 @@ svg {
 
 .lesson-title {
   font-size: 1.0625rem;
-  font-weight: 700;
-  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
@@ -622,7 +631,7 @@ svg {
 
 .today-margin-label {
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #E2E8F0;
@@ -634,7 +643,7 @@ svg {
 .today-day {
   font-family: var(--font-mono);
   font-size: 3.5rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   color: #FFFFFF;
   letter-spacing: -0.03em;
@@ -656,15 +665,17 @@ svg {
 
 .today-title {
   font-size: var(--text-2xl);
-  font-weight: 700;
-  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
 .today-goal {
   font-size: 0.9375rem;
+  font-weight: 400;
   color: var(--color-ink-2);
-  line-height: 1.55;
+  line-height: 1.65;
 }
 
 ol.parts {
@@ -694,7 +705,7 @@ ol.parts > li {
   color: var(--color-navy);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -702,7 +713,7 @@ ol.parts > li {
 
 .part-name {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
   line-height: 1.25;
 }
@@ -742,7 +753,9 @@ ol.parts > li {
 
 .section-title {
   font-size: 1.375rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
@@ -841,7 +854,9 @@ ol.parts > li {
 
 .stage-title {
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
@@ -891,6 +906,12 @@ ol.parts > li {
   border: 2px solid var(--color-accent);
 }
 
+.day-card.is-practice {
+  border-color: var(--color-navy-border);
+  border-left: 4px solid var(--color-navy);
+  background: var(--color-navy-soft);
+}
+
 .day-card.is-done {
   border-color: var(--color-correct-border);
   background: var(--color-correct-soft);
@@ -901,7 +922,8 @@ ol.parts > li {
   background: var(--color-amber-soft);
 }
 
-.day-card.is-done.is-today {
+.day-card.is-done.is-today,
+.day-card.is-practice.is-today {
   border: 2px solid var(--color-accent);
 }
 
@@ -911,7 +933,7 @@ ol.parts > li {
   align-self: center;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-accent);
 }
 
@@ -925,8 +947,10 @@ ol.parts > li {
 .day-title {
   grid-column: 1 / -1;
   grid-row: 2;
+  font-family: var(--font-display);
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   line-height: 1.35;
   color: var(--color-ink);
   margin-top: 4px;
@@ -947,8 +971,9 @@ ol.parts > li {
   grid-column: 1 / -1;
   grid-row: 4;
   font-size: var(--text-sm);
+  font-weight: 400;
   color: var(--color-ink-2);
-  line-height: 1.5;
+  line-height: 1.65;
   margin-top: 2px;
 }
 
@@ -984,6 +1009,10 @@ ol.parts > li {
   color: var(--color-correct);
 }
 
+.day-card.is-practice .day-status {
+  color: var(--color-navy);
+}
+
 .day-card.is-exam .day-status {
   color: var(--color-amber);
 }
@@ -992,7 +1021,7 @@ ol.parts > li {
   margin-left: auto;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 8px;
   border-radius: 5px;
   background: var(--color-card);
@@ -1048,7 +1077,7 @@ ol.parts > li {
   color: var(--color-accent);
   border-color: var(--color-rule);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .tab-no {
@@ -1060,7 +1089,7 @@ ol.parts > li {
   color: var(--color-muted);
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1093,7 +1122,9 @@ ol.parts > li {
 
 .panel-title {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-ink);
 }
 
@@ -1122,7 +1153,7 @@ ol.parts > li {
 .mastered {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 5px 10px;
   border-radius: var(--radius-tag);
   background: var(--color-correct-soft);
@@ -1212,10 +1243,12 @@ ol.parts > li {
 }
 
 .vcard-en {
+  font-family: var(--font-display);
   font-size: var(--text-xl);
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--color-ink);
-  line-height: 1.25;
+  line-height: 1.35;
   word-break: normal;
   overflow-wrap: break-word;
 }
@@ -1227,7 +1260,7 @@ ol.parts > li {
   color: var(--color-navy);
   border: 1px solid var(--color-navy-border);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -1312,7 +1345,7 @@ ol.parts > li {
 
 [data-theme="dark"] .vcard-master.is-on {
   color: #052E16;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Focus Deck Mode */
@@ -1413,7 +1446,7 @@ ol.parts > li {
 
 .block-title {
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-navy);
@@ -1427,7 +1460,8 @@ ol.parts > li {
 
 .grammar-explanation {
   font-size: 0.9375rem;
-  line-height: 1.7;
+  font-weight: 400;
+  line-height: 1.65;
   color: var(--color-ink-2);
   display: flex;
   flex-direction: column;
@@ -1447,6 +1481,7 @@ ol.parts > li {
 
 .grammar-explanation b {
   color: var(--color-ink);
+  font-weight: 600;
 }
 
 .eng-formula-box,
@@ -1461,7 +1496,7 @@ ol.parts > li {
 
 .eng-formula-title {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-navy);
   margin-bottom: 8px;
 }
@@ -1498,7 +1533,7 @@ ol.parts > li {
 .eng-table th {
   background: var(--color-paper-2);
   color: var(--color-ink);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .example-list {
@@ -1565,7 +1600,7 @@ ol.parts > li {
 .mistake-wrong::before {
   content: "Sai";
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   padding: 2px 6px;
   border-radius: 4px;
@@ -1583,7 +1618,7 @@ ol.parts > li {
 .mistake-right::before {
   content: "Đúng";
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   padding: 2px 6px;
   border-radius: 4px;
@@ -1649,7 +1684,7 @@ ol.parts > li {
   background: var(--color-navy-soft);
   color: var(--color-navy);
   border: 1px solid var(--color-navy-border);
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--text-sm);
   display: inline-flex;
   align-items: center;
@@ -1702,7 +1737,7 @@ ol.parts > li {
 
 .practice-text {
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
 }
 
@@ -1720,7 +1755,9 @@ ol.parts > li {
 
 .ex-title {
   font-size: 1.0625rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
   color: var(--color-navy);
   margin-bottom: 14px;
   padding-left: 10px;
@@ -1756,13 +1793,13 @@ ol.parts > li {
 .q-text {
   font-size: var(--text-md);
   font-weight: 500;
-  color: var(--color-ink);
-  line-height: 1.75;
+  color: var(--color-ink-2);
+  line-height: 1.65;
 }
 
 .q-num {
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-accent);
   margin-right: 6px;
 }
@@ -1861,7 +1898,7 @@ ol.parts > li {
 }
 
 .q-hint-label {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink-2);
 }
 
@@ -1936,7 +1973,7 @@ ol.parts > li {
 }
 
 .fb-mark {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .submit-bar {
@@ -2015,14 +2052,14 @@ ol.parts > li {
 .nav-day {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-accent);
   text-transform: uppercase;
 }
 
 .nav-title {
   font-size: 0.9375rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
 }
 
@@ -2083,7 +2120,9 @@ ol.parts > li {
 
 .modal-title {
   font-size: var(--text-lg);
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
 }
 
 .modal-tools {
@@ -2162,8 +2201,10 @@ ol.parts > li {
 }
 
 .vocab-word {
+  font-family: var(--font-display);
   font-size: 1.0625rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--color-ink);
 }
 
@@ -2173,7 +2214,7 @@ ol.parts > li {
   background: var(--color-navy-soft);
   color: var(--color-navy);
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 

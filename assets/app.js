@@ -1,19 +1,21 @@
 /* English Learning App: Roadmap and Study Desk controller (index.html)
  * Reads window.ENGLISH_CURRICULUM, keeps progress in localStorage (eng:* keys),
- * renders the 30-day roadmap, the vocabulary bank and the Google Sheets sync.
+ * renders the 180-day roadmap, the vocabulary bank and the Google Sheets sync.
  */
 (function () {
   'use strict';
 
   var CUR = window.ENGLISH_CURRICULUM || { days: [], stages: [], meta: {} };
   var DAYS = CUR.days || [];
-  var TOTAL_DAYS = DAYS.length || 30;
+  var TOTAL_DAYS = DAYS.length || 180;
 
   var STAGE_NAMES = {
-    1: 'A1 Foundation',
-    2: 'A2 Building Blocks',
-    3: 'A2+ Intermediate Bridge',
-    4: 'B1 Mastery'
+    1: 'Chặng 1 · Nền tảng A1 (A1 Foundation)',
+    2: 'Chặng 2 · Xây dựng câu A2 (A2 Building Blocks)',
+    3: 'Chặng 3 · Cầu nối Trung cấp A2+ (A2+ Bridge)',
+    4: 'Chặng 4 · Làm chủ B1 (B1 Mastery)',
+    5: 'Chặng 5 · Bứt phá Trung cấp B1+ (B1+ Upper-Intermediate)',
+    6: 'Chặng 6 · Tinh thông Học thuật B2 (B2 Academic Mastery)'
   };
 
   /* ---------- tiny helpers ---------- */
@@ -225,7 +227,11 @@
     if (!d) return;
     var done = getCompleted().indexOf(d.day) !== -1;
     setText('today-day-badge', pad2(d.day));
-    setText('today-label-text', done ? 'Ôn lại bài đã xong' : (getLastDay() === d.day ? 'Tiếp tục bài đang học' : 'Bài học hôm nay'));
+    var todayLabel = done ? 'Ôn lại bài đã xong' : (getLastDay() === d.day ? 'Tiếp tục bài đang học' : 'Bài học hôm nay');
+    if (d.isPractice) {
+      todayLabel = 'Ngày bài tập ôn luyện (Ôn Ngày ' + pad2(d.reviewOfDay || (d.day - 1)) + ')';
+    }
+    setText('today-label-text', todayLabel);
     var cefr = $('today-cefr');
     if (cefr) { cefr.textContent = d.cefr; cefr.setAttribute('data-cefr', d.cefr); }
     setText('today-title', d.title + (d.titleEn ? ' / ' + d.titleEn : ''));
@@ -253,9 +259,10 @@
   function dayVisible(d) {
     var done = getCompleted().indexOf(d.day) !== -1;
     var st = filterState.stage;
+    if (st === 'practice' && !d.isPractice) return false;
     if (st === 'exam' && !d.isExam) return false;
     if (st === 'completed' && !done) return false;
-    if (/^[1-4]$/.test(st) && String(d.stage) !== st) return false;
+    if (/^[1-6]$/.test(st) && String(d.stage) !== st) return false;
     if (filterState.q) {
       var q = norm(filterState.q).trim();
       if (q && HAY[d.day].indexOf(q) === -1) return false;
@@ -267,18 +274,23 @@
     var done = getCompleted().indexOf(d.day) !== -1;
     var sc = scoreText(d.day);
     var status = '';
+    var reviewDayStr = pad2(d.reviewOfDay || (d.day - 1));
     if (done) status = '<span class="day-status">' + icon('check') + 'Hoàn thành</span>';
     else if (d.isExam) status = '<span class="day-status">Bài thi Cột mốc</span>';
+    else if (d.isPractice) status = '<span class="day-status">Bài tập ôn luyện · Ngày ' + reviewDayStr + '</span>';
     else if (d.day === todayNo) status = '<span class="day-status">Bài học hôm nay</span>';
     else status = '<span class="day-status">' + dayVocabCount(d) + ' từ · ' + dayQuestionCount(d) + ' câu hỏi</span>';
-    var cls = 'day-card' + (done ? ' is-done' : '') + (d.isExam ? ' is-exam' : '') + (d.day === todayNo ? ' is-today' : '');
+    var cls = 'day-card' + (done ? ' is-done' : '') + (d.isPractice ? ' is-practice' : '') + (d.isExam ? ' is-exam' : '') + (d.day === todayNo ? ' is-today' : '');
+    var extraDoneBadge = '';
+    if (done && d.isExam) extraDoneBadge = '<span class="day-status">Bài thi Cột mốc</span>';
+    else if (done && d.isPractice) extraDoneBadge = '<span class="day-status">Bài tập ôn luyện · Ngày ' + reviewDayStr + '</span>';
     return '<li><a class="' + cls + '" href="lesson.html?day=' + d.day + '" data-day="' + d.day + '"' + (d.day === todayNo ? ' aria-current="step"' : '') + '>' +
       '<span class="day-num">Day ' + pad2(d.day) + '</span>' +
       '<span class="cefr-tag">' + esc(d.cefr) + '</span>' +
       '<span class="day-title">' + esc(d.title) + '</span>' +
       '<span class="day-title-en">' + esc(d.titleEn || '') + '</span>' +
       '<span class="day-goal">' + esc(d.dailyGoal || '') + '</span>' +
-      '<span class="day-meta">' + status + (d.isExam && done ? '<span class="day-status">Bài thi Cột mốc</span>' : '') +
+      '<span class="day-meta">' + status + extraDoneBadge +
         (sc ? '<span class="day-score" title="Điểm cao nhất">' + esc(sc) + '</span>' : '') + '</span>' +
     '</a></li>';
   }
@@ -290,7 +302,7 @@
     var html = '';
     var shown = 0;
     var doneList = getCompleted();
-    [1, 2, 3, 4].forEach(function (stageNo) {
+    [1, 2, 3, 4, 5, 6].forEach(function (stageNo) {
       var all = DAYS.filter(function (d) { return d.stage === stageNo; });
       var days = all.filter(dayVisible);
       if (!days.length) return;
@@ -310,6 +322,8 @@
     var empty = $('roadmap-empty');
     if (empty) empty.hidden = shown > 0;
 
+    var allChip = document.querySelector('#stage-filters [data-stage="all"]');
+    if (allChip) allChip.textContent = 'Tất cả (' + TOTAL_DAYS + ')';
     var n = doneList.length;
     setText('roadmap-progress-text', n + ' trên ' + TOTAL_DAYS + ' ngày');
     var bar = $('roadmap-progress-bar');

@@ -6,7 +6,7 @@
 
   var CUR = window.ENGLISH_CURRICULUM || { days: [], meta: {} };
   var DAYS = CUR.days || [];
-  var TOTAL_DAYS = DAYS.length || 30;
+  var TOTAL_DAYS = DAYS.length || 180;
   var PASS_RATIO = 0.7;
 
   /* ---------- helpers ---------- */
@@ -279,7 +279,10 @@
 
   /* ---------- header ---------- */
   function renderHeader() {
-    setText('lesson-meta-badge', 'Day ' + pad2(D.day) + ' ' + D.cefr + (D.isExam ? ' Bài thi' : ''));
+    var metaBadge = 'Day ' + pad2(D.day) + ' ' + D.cefr;
+    if (D.isExam) metaBadge += ' Bài thi';
+    else if (D.isPractice) metaBadge += ' · Bài tập Ôn Ngày ' + pad2(D.reviewOfDay || (D.day - 1));
+    setText('lesson-meta-badge', metaBadge);
     var badge = $('lesson-meta-badge'); if (badge) badge.setAttribute('data-cefr', D.cefr);
     setText('lesson-title', D.title || '');
     setText('lesson-sub', (D.titleEn ? D.titleEn + '. ' : '') + (D.dailyGoal || ''));
@@ -1085,8 +1088,8 @@
       : navLink('nav-prev', 'index.html', 'Lộ trình', 'Về trang chủ');
     var next = D.day < TOTAL_DAYS && nextD
       ? navLink('nav-next', 'lesson.html?day=' + (D.day + 1), 'Day ' + pad2(D.day + 1), nextD.title)
-      : navLink('nav-next', 'index.html', 'Hoàn thành', 'Về lộ trình 30 ngày');
-    var home = navLink('nav-home', 'index.html', 'Lộ trình', '30 ngày từ A1 đến B1');
+      : navLink('nav-next', 'index.html', 'Hoàn thành', 'Về lộ trình 180 ngày');
+    var home = navLink('nav-home', 'index.html', 'Lộ trình', '180 ngày từ A1 đến B2');
     nav.innerHTML = prev + home + next;
   }
 

@@ -1,6 +1,6 @@
-# English Learning App: A1 to B1 Daily Workbook
+# English Learning App: A1 to B2 180-Day Workbook
 
-A static, offline-capable 30-day English course. Each day is a four-step workbook (vocabulary, grammar, dialogue, five-part practice) and the roadmap climbs from CEFR A1 to B1. No build step and no dependencies: open it from any static host.
+A static, offline-capable 180-day English course (90 base lessons & milestone exams interleaved with 90 dedicated practice/review days). Each day is a four-step workbook (vocabulary, grammar, dialogue, five-part practice) and the roadmap climbs from CEFR A1 to B2 across 6 structured stages. No build step and no dependencies: open it from any static host.
 
 ## Run it
 
@@ -15,24 +15,26 @@ Open `http://localhost:3000` (or `:8080`). Opening `index.html` straight from di
 
 | File | Role |
 | --- | --- |
-| `index.html` | Study desk: today's lesson, 30-day roadmap, vocabulary bank, student profile and sync |
-| `lesson.html` | The four-step workbench for one day (`lesson.html?day=1` to `?day=30`) |
-| `assets/style.css` | Design system (editorial workbook look, light and dark theme) |
+| `index.html` | Study desk: today's lesson, 180-day roadmap, vocabulary bank, student profile and sync |
+| `lesson.html` | The four-step workbench for one day (`lesson.html?day=1` to `?day=180`) |
+| `assets/style.css` | Design system (editorial workbook look, light and dark theme, subpixel/optical font smoothness) |
 | `assets/app.js` | Roadmap and study desk controller |
 | `assets/lesson.js` | Workbench and practice engine |
-| `data/curriculum.js` | `window.ENGLISH_CURRICULUM`: `meta`, `stages`, `days` (30 lessons) |
+| `data/curriculum.js` | `window.ENGLISH_CURRICULUM`: `meta`, `stages`, `days` (180 lessons) |
 | `sw.js`, `manifest.json` | Offline cache and installable web app manifest |
 
 ## The course
 
-| Stage | CEFR | Days | Name |
-| --- | --- | --- | --- |
-| 1 | A1 | 1 to 7 | A1 Foundation |
-| 2 | A2 | 8 to 15 | A2 Building Blocks |
-| 3 | A2+ | 16 to 23 | A2+ Intermediate Bridge |
-| 4 | B1 | 24 to 30 | B1 Mastery |
+| Stage | CEFR | Days | Base Days | Name |
+| --- | --- | --- | --- | --- |
+| 1 | A1 | 1 to 14 | 1 to 7 | Chặng 1 · Nền tảng A1 (A1 Foundation) |
+| 2 | A2 | 15 to 30 | 8 to 15 | Chặng 2 · Xây dựng câu A2 (A2 Building Blocks) |
+| 3 | A2+ | 31 to 46 | 16 to 23 | Chặng 3 · Cầu nối Trung cấp A2+ (A2+ Bridge) |
+| 4 | B1 | 47 to 60 | 24 to 30 | Chặng 4 · Làm chủ B1 (B1 Mastery) |
+| 5 | B1+ | 61 to 120 | 31 to 60 | Chặng 5 · Bứt phá Trung cấp B1+ (B1+ Upper-Intermediate) |
+| 6 | B2 | 121 to 180 | 61 to 90 | Chặng 6 · Tinh thông Học thuật B2 (B2 Academic Mastery) |
 
-Days 5, 10, 15, 20, 25 and 30 are milestone exams (`isExam: true`). They have no dialogue, so step 3 is hidden and the step buttons jump from Grammar straight to Practice.
+Every odd day (`Day 2k - 1`) is a Base Lesson or Milestone Exam (`isExam: true` on Days 9, 19, 29, ..., 179), and every even day (`Day 2k`) is a Dedicated Practice & Review Day (`isPractice: true`, `reviewOfDay: 2k - 1`) reinforcing the exact lesson or exam from the day before. Milestone exam days have no dialogue, so step 3 is hidden and the step buttons jump from Grammar straight to Practice.
 
 ### One day, four steps
 
@@ -111,8 +113,8 @@ Deploy it as a Web App with access "Anyone".
 
 ## Offline
 
-`sw.js` caches the app shell and `data/curriculum.js` (cache `english-learning-app-v1`). It is network-first, so edits show up when online and the cached copy is used offline. Bump the cache name in `sw.js` when you ship a breaking change. Speech uses the browser's Web Speech API (`speechSynthesis`, `en-US`); without it the audio buttons do nothing and the rest still works.
+`sw.js` caches the app shell and `data/curriculum.js` (cache `english-learning-app-v6`). It is network-first, so edits show up when online and the cached copy is used offline. Bump the cache name in `sw.js` when you ship a breaking change. Speech uses the browser's Web Speech API (`speechSynthesis`, `en-US`); without it the audio buttons do nothing and the rest still works.
 
 ## Adding or editing lessons
 
-Edit `data/curriculum.js` only; the UI reads everything from it. Keep `day` values 1 to 30 in order, because the roadmap, "today" card and previous/next navigation index by day number.
+Edit `data/curriculum.js` only; the UI reads everything from it. Keep `day` values 1 to 180 in order, because the roadmap, "today" card and previous/next navigation index by day number.

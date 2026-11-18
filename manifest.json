@@ -1,14 +1,14 @@
 {
-  "name": "English Learning App · A1 to B1 Daily Workbook",
-  "short_name": "English A1→B1",
-  "description": "30-day daily English workbook from A1 to B1: vocabulary, grammar, dialogue and 5-part practice.",
+  "name": "English Learning App · A1 to B2 180-Day Workbook",
+  "short_name": "English A1→B2",
+  "description": "180-day daily English workbook from A1 to B2 (90 lessons + 90 dedicated practice/review days): vocabulary, grammar, dialogue and 5-part practice.",
   "start_url": "index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "lang": "vi",
-  "background_color": "#FAF7F2",
-  "theme_color": "#C84B31",
+  "background_color": "#F4F6F8",
+  "theme_color": "#C81E1E",
   "categories": [
     "education"
   ],

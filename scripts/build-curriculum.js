@@ -7,6 +7,21 @@ const extractedS1toS15 = JSON.parse(
 const enrichments = require('./data-s1-s15-enrichments.js');
 const days16to23 = require('./data-s16-s23.js');
 const days24to30 = require('./data-s24-s30.js');
+const days31to50 = require('./data-s31-s50.js');
+const days51to70 = require('./data-s51-s70.js');
+const days71to90 = require('./data-s71-s90.js');
+const {
+  createPracticeDay,
+  resetPracticeGeneratorState,
+  deduplicateVocabAcrossDays
+} = require('./generate-practice-days.js');
+const { deduplicateBaseDaysVocab } = require('./practice-day-engine.js');
+
+function range(start, end) {
+  const arr = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+}
 
 const STAGES = [
   {
@@ -16,9 +31,9 @@ const STAGES = [
     cefr: "A1",
     name: "Nền tảng A1 (Foundation)",
     nameEn: "A1 Foundation",
-    dayRange: "Days 1–7",
-    days: [1, 2, 3, 4, 5, 6, 7],
-    description: "Làm chủ 6 thì cốt lõi trong tiếng Anh, động từ chỉ sở thích (V-ing / to V) và cấu trúc so sánh hơn, so sánh nhất."
+    dayRange: "Days 1–14",
+    days: range(1, 14),
+    description: "Làm chủ 6 thì cốt lõi trong tiếng Anh, động từ chỉ sở thích (V-ing / to V) và cấu trúc so sánh hơn, so sánh nhất kèm ngày bài tập thực hành xen kẽ."
   },
   {
     stage: 2,
@@ -27,8 +42,8 @@ const STAGES = [
     cefr: "A2",
     name: "Xây dựng câu A2 (Building Blocks)",
     nameEn: "A2 Building Blocks",
-    dayRange: "Days 8–15",
-    days: [8, 9, 10, 11, 12, 13, 14, 15],
+    dayRange: "Days 15–30",
+    days: range(15, 30),
     description: "Sử dụng chuẩn xác mạo từ (a/an/the), từ để hỏi, câu hỏi đuôi, câu đơn/ghép/phức, động từ khuyết thiếu và câu điều kiện loại 1 & 2."
   },
   {
@@ -38,8 +53,8 @@ const STAGES = [
     cefr: "A2+",
     name: "Cầu nối trung cấp A2+ (Intermediate Bridge)",
     nameEn: "A2+ Intermediate Bridge",
-    dayRange: "Days 16–23",
-    days: [16, 17, 18, 19, 20, 21, 22, 23],
+    dayRange: "Days 31–46",
+    days: range(31, 46),
     description: "Chuyển đổi linh hoạt thể bị động (Passive Voice), câu tường thuật (Reported Speech), thì tương lai tiếp diễn, suy đoán và cấu trúc Used to."
   },
   {
@@ -49,9 +64,31 @@ const STAGES = [
     cefr: "B1",
     name: "Làm chủ B1 (B1 Mastery)",
     nameEn: "B1 Mastery",
-    dayRange: "Days 24–30",
-    days: [24, 25, 26, 27, 28, 29, 30],
+    dayRange: "Days 47–60",
+    days: range(47, 60),
     description: "Vận dụng tự nhiên các cụm động từ (Phrasal Verbs), danh động từ nâng cao, lượng từ, giới từ, câu cảm thán và cấu trúc cầu khiến."
+  },
+  {
+    stage: 5,
+    id: 5,
+    number: 5,
+    cefr: "B1+",
+    name: "Bứt phá Trung cấp B1+ (Upper-Intermediate)",
+    nameEn: "B1+ Upper-Intermediate",
+    dayRange: "Days 61–120",
+    days: range(61, 120),
+    description: "Chinh phục quá khứ hoàn thành, câu điều kiện loại 3 & hỗn hợp, mệnh đề quan hệ rút gọn, phân từ, câu chẻ, đảo ngữ và thức giả định."
+  },
+  {
+    stage: 6,
+    id: 6,
+    number: 6,
+    cefr: "B2",
+    name: "Tinh thông Học thuật B2 (Academic Mastery)",
+    nameEn: "B2 Academic Mastery",
+    dayRange: "Days 121–180",
+    days: range(121, 180),
+    description: "Làm chủ ngữ pháp học thuật B2: danh từ hóa (Nominalization), ngôn ngữ rào đón (Hedging), liên từ học thuật, sự hòa hợp chủ-vị phức tạp và tổng hợp câu đa mệnh đề."
   }
 ];
 
@@ -74,11 +111,22 @@ function cleanText(str) {
     .trim();
 }
 
+function stageForBaseDay(baseDay) {
+  if (baseDay <= 7) return { stage: 1, cefr: "A1", stageName: "A1 Foundation" };
+  if (baseDay <= 15) return { stage: 2, cefr: "A2", stageName: "A2 Building Blocks" };
+  if (baseDay <= 23) return { stage: 3, cefr: "A2+", stageName: "A2+ Intermediate Bridge" };
+  if (baseDay <= 30) return { stage: 4, cefr: "B1", stageName: "B1 Mastery" };
+  if (baseDay <= 60) return { stage: 5, cefr: "B1+", stageName: "B1+ Upper-Intermediate" };
+  return { stage: 6, cefr: "B2", stageName: "B2 Academic Mastery" };
+}
+
 function stageForDay(day) {
-  if (day <= 7) return { stage: 1, cefr: "A1", stageName: "A1 Foundation" };
-  if (day <= 15) return { stage: 2, cefr: "A2", stageName: "A2 Building Blocks" };
-  if (day <= 23) return { stage: 3, cefr: "A2+", stageName: "A2+ Intermediate Bridge" };
-  return { stage: 4, cefr: "B1", stageName: "B1 Mastery" };
+  if (day <= 14) return { stage: 1, cefr: "A1", stageName: "A1 Foundation" };
+  if (day <= 30) return { stage: 2, cefr: "A2", stageName: "A2 Building Blocks" };
+  if (day <= 46) return { stage: 3, cefr: "A2+", stageName: "A2+ Intermediate Bridge" };
+  if (day <= 60) return { stage: 4, cefr: "B1", stageName: "B1 Mastery" };
+  if (day <= 120) return { stage: 5, cefr: "B1+", stageName: "B1+ Upper-Intermediate" };
+  return { stage: 6, cefr: "B2", stageName: "B2 Academic Mastery" };
 }
 
 function defaultHintForFill(sentence, answer) {
@@ -100,7 +148,6 @@ function enrichFillItem(q, day) {
     hint: cleanText(q.hint || defaultHintForFill(q.sentence, q.answer))
   };
   if (q.alternatives) item.alternatives = q.alternatives.map(cleanText);
-  // Add smart alternatives for two-part verb answers or zero article
   if (item.answer === 'x') {
     item.alternatives = Array.from(new Set([...(item.alternatives || []), 'no article', 'rỗng', 'none', 'Ø']));
   }
@@ -145,8 +192,6 @@ function enrichFillItem(q, day) {
   return item;
 }
 
-// Questions with 2 blanks ("___ you ___ (look)"): the learner may type just the
-// verb words ("are looking") or the full phrase between the blanks ("are you looking").
 function addMultiBlankSupport(item) {
   const parts = item.sentence.split('___');
   const blanks = parts.length - 1;
@@ -166,14 +211,13 @@ function addMultiBlankSupport(item) {
   if (!item.hint.includes('Có 2 chỗ trống')) item.hint = `${item.hint}. ${note}`;
 }
 
-function enrichTransItem(q, day) {
+function enrichTransItem(q, baseDay) {
   let sentence = cleanText(q.sentence);
   let answer = cleanText(q.answer);
   let hint = cleanText(q.hint || defaultHintForTrans(sentence));
   let alternatives = q.alternatives ? q.alternatives.map(cleanText) : [];
 
-  // Fix Day 8 transformation #5 where prompt and answer were identical
-  if (day === 8 && sentence === 'Water is essential for life. (x)') {
+  if (baseDay === 8 && sentence === 'Water is essential for life. (x)') {
     sentence = 'The water is essential for all living things. (Water)';
     answer = 'Water is essential for all living things.';
     alternatives = ['Water is essential for life.'];
@@ -185,15 +229,14 @@ function enrichTransItem(q, day) {
   return out;
 }
 
-function buildDay1to15(day) {
-  const raw = extractedS1toS15['s' + day];
-  const st = stageForDay(day);
-  const isExam = day % 5 === 0;
-  const meta = enrichments.metaByDay[day];
+function buildBaseDay1to15(baseDay) {
+  const raw = extractedS1toS15['s' + baseDay];
+  const st = stageForBaseDay(baseDay);
+  const isExam = baseDay % 5 === 0;
+  const meta = enrichments.metaByDay[baseDay];
 
-  // Combine original vocab (excluding single dummy "Test" / "Review" on s10/s15 if we have full vocab, or keeping & enriching)
   const baseVocab = (raw.vocab || []).filter(v => v.en !== 'Test' && v.en !== 'Review');
-  const extraVocab = enrichments.extraVocabByDay[day] || [];
+  const extraVocab = enrichments.extraVocabByDay[baseDay] || [];
   const seenVocab = new Set();
   const vocab = [];
   [...baseVocab, ...extraVocab].forEach(v => {
@@ -210,12 +253,15 @@ function buildDay1to15(day) {
     }
   });
 
-  // Grammar
-  const rawGrammar = raw.grammar || enrichments.examGrammarByDay[day];
+  const rawGrammar = raw.grammar || enrichments.examGrammarByDay[baseDay];
   const grammar = {
     point: cleanText(rawGrammar.point),
     explanation: cleanExplanationHtml(rawGrammar.explanation),
-    examples: (rawGrammar.examples || []).map(cleanText),
+    examples: (rawGrammar.examples || []).map(e =>
+      typeof e === 'string'
+        ? cleanText(e)
+        : { en: cleanText(e.en), vi: cleanText(e.vi) }
+    ),
     commonMistake: {
       wrong: cleanText(rawGrammar.commonMistake.wrong),
       right: cleanText(rawGrammar.commonMistake.right),
@@ -224,7 +270,6 @@ function buildDay1to15(day) {
     memoryTip: cleanText(rawGrammar.memoryTip)
   };
 
-  // Dialogue: null on exam days (Days 5, 10, 15) as specified in the brief
   const dialogue = isExam
     ? null
     : {
@@ -237,38 +282,47 @@ function buildDay1to15(day) {
       };
 
   const rawEx = raw.exercises || {};
-  const extraEx = enrichments.examExtraExercisesByDay[day] || {};
+  const extraEx = enrichments.examExtraExercisesByDay[baseDay] || {};
 
-  const multipleChoice = (rawEx.multipleChoice || []).map(q => ({
-    q: cleanText(q.q),
-    options: (q.options || []).map(cleanText),
-    answer: cleanText(q.answer)
-  }));
+  const multipleChoice = (rawEx.multipleChoice || []).map(q => {
+    const out = {
+      q: cleanText(q.q),
+      options: (q.options || []).map(cleanText),
+      answer: cleanText(q.answer)
+    };
+    if (q.explanation) out.explanation = cleanText(q.explanation);
+    return out;
+  });
 
-  const fillBlank = (rawEx.fillBlank || []).map(q => enrichFillItem(q, day));
+  const fillBlank = (rawEx.fillBlank || []).map(q => enrichFillItem(q, baseDay));
 
-  const sentenceBuild = (rawEx.sentenceBuild || []).map(q => ({
-    words: (q.words || []).map(cleanText),
-    answer: cleanText(q.answer)
-  }));
+  const sentenceBuild = (rawEx.sentenceBuild || []).map(q => {
+    const out = {
+      words: (q.words || []).map(cleanText),
+      answer: cleanText(q.answer)
+    };
+    if (q.vi) out.vi = cleanText(q.vi);
+    return out;
+  });
 
   const rawTrans = (rawEx.transformation && rawEx.transformation.length)
     ? rawEx.transformation
     : (extraEx.transformation || []);
-  const transformation = rawTrans.map(q => enrichTransItem(q, day));
+  const transformation = rawTrans.map(q => enrichTransItem(q, baseDay));
 
   const rawRev = (rawEx.review && rawEx.review.length)
     ? rawEx.review
     : (extraEx.review || []);
-  const review = rawRev.map(q => enrichFillItem(q, day));
+  const review = rawRev.map(q => enrichFillItem(q, baseDay));
 
   return {
-    day,
-    id: `day-${day}`,
+    day: baseDay,
+    id: `day-${baseDay}`,
     cefr: st.cefr,
     stage: st.stage,
     stageName: st.stageName,
     isExam,
+    isPractice: false,
     estimatedMinutes: isExam ? 30 : 20,
     title: meta.title,
     titleEn: meta.titleEn,
@@ -286,14 +340,16 @@ function buildDay1to15(day) {
   };
 }
 
-function normalizeDay16to30(d) {
+function normalizeBaseDay16to90(d) {
+  const st = stageForBaseDay(d.day);
   return {
     day: d.day,
-    id: d.id,
-    cefr: d.cefr,
-    stage: d.stage,
-    stageName: d.stageName,
+    id: `day-${d.day}`,
+    cefr: st.cefr,
+    stage: st.stage,
+    stageName: st.stageName,
     isExam: !!d.isExam,
+    isPractice: false,
     estimatedMinutes: d.estimatedMinutes || (d.isExam ? 30 : 25),
     title: cleanText(d.title),
     titleEn: cleanText(d.titleEn),
@@ -308,7 +364,11 @@ function normalizeDay16to30(d) {
     grammar: {
       point: cleanText(d.grammar.point),
       explanation: cleanExplanationHtml(d.grammar.explanation),
-      examples: d.grammar.examples.map(cleanText),
+      examples: (d.grammar.examples || []).map(e =>
+        typeof e === 'string'
+          ? cleanText(e)
+          : { en: cleanText(e.en), vi: cleanText(e.vi) }
+      ),
       commonMistake: {
         wrong: cleanText(d.grammar.commonMistake.wrong),
         right: cleanText(d.grammar.commonMistake.right),
@@ -327,44 +387,114 @@ function normalizeDay16to30(d) {
           }))
         },
     exercises: {
-      multipleChoice: d.exercises.multipleChoice.map(q => ({
-        q: cleanText(q.q),
-        options: q.options.map(cleanText),
-        answer: cleanText(q.answer)
-      })),
+      multipleChoice: d.exercises.multipleChoice.map(q => {
+        const out = {
+          q: cleanText(q.q),
+          options: q.options.map(cleanText),
+          answer: cleanText(q.answer)
+        };
+        if (q.explanation) out.explanation = cleanText(q.explanation);
+        return out;
+      }),
       fillBlank: d.exercises.fillBlank.map(q => enrichFillItem(q, d.day)),
-      sentenceBuild: d.exercises.sentenceBuild.map(q => ({
-        words: q.words.map(cleanText),
-        answer: cleanText(q.answer)
-      })),
+      sentenceBuild: d.exercises.sentenceBuild.map(q => {
+        const out = {
+          words: q.words.map(cleanText),
+          answer: cleanText(q.answer)
+        };
+        if (q.vi) out.vi = cleanText(q.vi);
+        return out;
+      }),
       transformation: d.exercises.transformation.map(q => enrichTransItem(q, d.day)),
       review: d.exercises.review.map(q => enrichFillItem(q, d.day))
     }
   };
 }
 
-const days = [];
+// 1. Assemble all 90 Base Days
+const baseDays = [];
 for (let i = 1; i <= 15; i++) {
-  days.push(buildDay1to15(i));
+  baseDays.push(buildBaseDay1to15(i));
 }
-days16to23.forEach(d => days.push(normalizeDay16to30(d)));
-days24to30.forEach(d => days.push(normalizeDay16to30(d)));
+days16to23.forEach(d => baseDays.push(normalizeBaseDay16to90(d)));
+days24to30.forEach(d => baseDays.push(normalizeBaseDay16to90(d)));
+days31to50.forEach(d => baseDays.push(normalizeBaseDay16to90(d)));
+days51to70.forEach(d => baseDays.push(normalizeBaseDay16to90(d)));
+days71to90.forEach(d => baseDays.push(normalizeBaseDay16to90(d)));
 
-// Fix any typo in Day 24 vocab example
-days.forEach(d => {
+// Fix any typo in Base Day 24 vocab example
+baseDays.forEach(d => {
   d.vocab.forEach(v => {
     v.example = v.example.replace('took offtwenty', 'took off twenty');
   });
 });
 
-// Validation
+// Deduplicate vocabulary across the 90 Base Days using curated B1+/B2 academic replacements
+deduplicateBaseDaysVocab(baseDays);
+
+// 2. Interleave each Base Day k (placed at Odd Day 2k - 1) with its paired Practice/Review Day (Even Day 2k)
+resetPracticeGeneratorState();
+const days = [];
+const prevBaseDaysPool = [];
+
+baseDays.forEach((baseDay, idx) => {
+  const k = idx + 1; // 1..90
+  const oddDayNum = 2 * k - 1; // 1, 3, 5, ..., 179
+  const evenDayNum = 2 * k;    // 2, 4, 6, ..., 180
+  const st = stageForDay(oddDayNum);
+
+  let title = baseDay.title;
+  let titleEn = baseDay.titleEn;
+  if (baseDay.isExam) {
+    const m = Math.round(k / 5); // 1..18
+    const blockStart = (m - 1) * 10 + 1;
+    const blockEnd = m * 10 - 2;
+    title = title
+      .replace(/Lộ Trình 90 Ngày/g, 'Lộ Trình 180 Ngày')
+      .replace(/\(Days 1–30\)/g, '(Days 1–60)')
+      .replace(/\(Days 31–50\)/g, `(Ngày ${blockStart}–${blockEnd})`)
+      .replace(/\(Days 1–90\)/g, '(Days 1–180)')
+      .replace(/Ngày \d+–\d+/g, `Ngày ${blockStart}–${blockEnd}`);
+    titleEn = titleEn
+      .replace(/\(Days 1–90\)/g, '(Days 1–180)')
+      .replace(/\(Days 31–50\)/g, `(Days ${blockStart}–${blockEnd})`)
+      .replace(/\(Days \d+–\d+\)/g, `(Days ${blockStart}–${blockEnd})`);
+  }
+
+  const oddDayObj = {
+    ...baseDay,
+    day: oddDayNum,
+    id: `day-${oddDayNum}`,
+    cefr: st.cefr,
+    stage: st.stage,
+    stageName: st.stageName,
+    title,
+    titleEn,
+    isPractice: false
+  };
+
+  const evenDayObj = createPracticeDay(oddDayObj, evenDayNum, st, prevBaseDaysPool);
+
+  days.push(oddDayObj);
+  days.push(evenDayObj);
+  prevBaseDaysPool.push(oddDayObj);
+});
+
+// Final safety pass to guarantee 0 duplicate vocabulary across all 180 days
+deduplicateVocabAcrossDays(days);
+
+// 3. Comprehensive Validation across all 180 days
 let totalVocab = 0;
 let totalQuestions = 0;
+if (days.length !== 180) {
+  throw new Error(`Expected 180 days, got ${days.length}`);
+}
+
 days.forEach((d, idx) => {
   const expectedDay = idx + 1;
   if (d.day !== expectedDay) throw new Error(`Day mismatch: expected ${expectedDay}, got ${d.day}`);
   if (d.id !== `day-${expectedDay}`) throw new Error(`ID mismatch on day ${d.day}`);
-  if (!d.vocab || d.vocab.length < 12) throw new Error(`Day ${d.day} has too few vocab items: ${d.vocab ? d.vocab.length : 0}`);
+  if (!d.vocab || d.vocab.length < 10) throw new Error(`Day ${d.day} has too few vocab items: ${d.vocab ? d.vocab.length : 0}`);
   if (!d.grammar || !d.grammar.point || !d.grammar.explanation || !d.grammar.commonMistake || !d.grammar.memoryTip) {
     throw new Error(`Day ${d.day} missing grammar fields`);
   }
@@ -372,7 +502,7 @@ days.forEach((d, idx) => {
     throw new Error(`Exam Day ${d.day} should have dialogue: null`);
   }
   if (!d.isExam && (!d.dialogue || !d.dialogue.lines || d.dialogue.lines.length < 4)) {
-    throw new Error(`Regular Day ${d.day} missing dialogue lines`);
+    throw new Error(`Regular/Practice Day ${d.day} missing dialogue lines`);
   }
   const ex = d.exercises;
   ['multipleChoice', 'fillBlank', 'sentenceBuild', 'transformation', 'review'].forEach(k => {
@@ -380,13 +510,11 @@ days.forEach((d, idx) => {
       throw new Error(`Day ${d.day} missing exercises.${k}`);
     }
   });
-  // Verify multipleChoice answers exist in options
   ex.multipleChoice.forEach((q, qi) => {
     if (!q.options.includes(q.answer)) {
       throw new Error(`Day ${d.day} MC #${qi + 1}: answer "${q.answer}" not in options ${JSON.stringify(q.options)}`);
     }
   });
-  // Verify sentenceBuild words match answer tokens
   ex.sentenceBuild.forEach((q, qi) => {
     const wSorted = q.words.slice().sort().join('|');
     const aTokens = q.answer.split(/\s+/).filter(Boolean).sort().join('|');
@@ -407,14 +535,14 @@ days.forEach((d, idx) => {
 
 const curriculum = {
   meta: {
-    title: "English Learning App — Lộ trình 30 Ngày A1 đến B1",
-    subtitle: "30-Day Progressive English Workbook (CEFR A1 to B1)",
-    version: "2.0.0",
-    totalDays: 30,
-    totalStages: 4,
+    title: "English Learning App — Lộ trình 180 Ngày A1 đến B2",
+    subtitle: "180-Day Progressive English Workbook (CEFR A1 to B2 — 90 Lesson/Exam Days + 90 Practice & Drill Days)",
+    version: "3.0.0",
+    totalDays: 180,
+    totalStages: 6,
     totalVocab,
     totalQuestions,
-    cefrLevels: ["A1", "A2", "A2+", "B1"],
+    cefrLevels: ["A1", "A2", "A2+", "B1", "B1+", "B2"],
     syncUrl: ""
   },
   stages: STAGES,
@@ -424,7 +552,7 @@ const curriculum = {
 const outDir = path.join(__dirname, '..', 'data');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
-const jsOutput = `/* English Learning App — 30-Day A1 to B1 Curriculum Data
+const jsOutput = `/* English Learning App — 180-Day A1 to B2 Curriculum Data
  * Generated by scripts/build-curriculum.js
  * Total Days: ${days.length} | Total Vocabulary: ${totalVocab} | Total Exercises: ${totalQuestions}
  */

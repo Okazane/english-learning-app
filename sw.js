@@ -1,12 +1,12 @@
 /* English Learning App — offline cache (app shell + curriculum). */
-var CACHE = 'english-learning-app-v5';
+var CACHE = 'english-learning-app-v6';
 var ASSETS = [
   'index.html',
   'lesson.html',
-  'assets/style.css?v=5',
-  'assets/app.js?v=5',
-  'assets/lesson.js?v=5',
-  'data/curriculum.js?v=5',
+  'assets/style.css?v=6',
+  'assets/app.js?v=6',
+  'assets/lesson.js?v=6',
+  'data/curriculum.js?v=6',
   'manifest.json'
 ];
 
@@ -33,8 +33,8 @@ self.addEventListener('activate', function (event) {
   );
 });
 
-// lesson.html?day=1 ... ?day=30 is one and the same document, so HTML pages are cached under their
-// path only (no query string): a single copy of lesson.html instead of 30.
+// lesson.html?day=1 ... ?day=180 is one and the same document, so HTML pages are cached under their
+// path only (no query string): a single copy of lesson.html instead of 180.
 function cacheKey(req) {
   var url = new URL(req.url);
   if (url.search && (/\.html$/.test(url.pathname) || req.mode === 'navigate')) {
